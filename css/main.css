@@ -361,3 +361,42 @@
   .amenities-list { gap: 1.5rem 2rem; }
   .amenity-icon { font-size: 1.5rem; }
 }
+
+/* ── GALLERY ─────────────────────────────────── */
+.gallery {
+  padding: var(--section-pad);
+  background-color: var(--color-cream);
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.gallery-item {
+  margin: 0;
+  border-radius: var(--radius-card);
+  overflow: hidden;
+}
+
+.gallery-item img {
+  width: 100%;
+  height: 320px;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.gallery-item:hover img {
+  transform: scale(1.03);
+}
+
+@media (max-width: 1024px) {
+  .gallery-item img { height: 260px; }
+}
+
+@media (max-width: 768px) {
+  .gallery { padding: var(--section-pad-mobile); }
+  .gallery-grid { grid-template-columns: 1fr; }
+  .gallery-item img { height: 240px; }
+}
