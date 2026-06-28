@@ -242,3 +242,82 @@
 @media (max-width: 768px) {
   .about { padding: var(--section-pad-mobile); }
 }
+
+/* ── SERVICES ────────────────────────────────── */
+.services {
+  padding: var(--section-pad);
+  background-color: var(--color-warm-white);
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.section-heading {
+  font-family: var(--font-primary);
+  font-weight: 700;
+  font-size: clamp(2rem, 4vw, 2.75rem);
+  color: var(--color-espresso);
+  line-height: 1.2;
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.25rem;
+}
+
+.service-card {
+  background-color: var(--color-warm-white);
+  border: 1px solid rgba(201, 168, 76, 0.25);
+  border-radius: var(--radius-card);
+  padding: 1.5rem 1.25rem;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.service-card:hover {
+  border-color: var(--color-gold);
+  transform: translateY(-3px);
+}
+
+.service-icon {
+  font-size: 2rem;
+  margin-bottom: 0.75rem;
+}
+
+.service-name {
+  font-family: var(--font-primary);
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--color-espresso);
+  margin-bottom: 0.5rem;
+}
+
+.service-desc {
+  font-size: 0.875rem;
+  color: var(--color-teak);
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.service-price {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--color-gold);
+  letter-spacing: 0.05em;
+}
+
+.services-cta {
+  text-align: center;
+  margin-top: 2.5rem;
+}
+
+@media (max-width: 768px) {
+  .services { padding: var(--section-pad-mobile); }
+  .services-grid { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 480px) {
+  .services-grid { grid-template-columns: 1fr; }
+}
