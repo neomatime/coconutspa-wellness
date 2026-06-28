@@ -159,7 +159,8 @@
 
 .hero-tagline {
   font-size: 1.1rem;
-  color: rgba(253, 250, 244, 0.8);
+  color: var(--color-warm-white);
+  opacity: 0.8;
   max-width: 480px;
   margin: 0 auto 2.25rem;
 }
