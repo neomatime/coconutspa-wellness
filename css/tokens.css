@@ -1,6 +1,7 @@
 :root {
   --color-cream: #F5EDD8;
   --color-gold: #C9A84C;
+  --color-gold-faint: rgba(201, 168, 76, 0.25);
   --color-espresso: #2C1A0E;
   --color-warm-white: #FDFAF4;
   --color-teak: #7A5C3A;
