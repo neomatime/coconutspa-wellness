@@ -11,7 +11,7 @@
   <meta name="theme-color" content="#2C1A0E" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Great+Vibes&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/tokens.css" />
   <link rel="stylesheet" href="css/base.css" />
   <link rel="stylesheet" href="css/main.css" />
@@ -33,7 +33,7 @@
       </a>
       <div class="nav-actions">
         <a href="https://www.fresha.com/a/coconut-spa-wellness-midrand-102-allen-road-umi0yjoe"
-           class="btn-primary" target="_blank" rel="noopener">Book Now</a>
+           class="btn-nav-book" target="_blank" rel="noopener">Book Now</a>
         <button class="nav-hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
           <span></span><span></span><span></span>
         </button>
@@ -64,9 +64,10 @@
         />
       </picture>
       <div class="hero-overlay"></div>
-      <div class="hero-content container">
+      <div class="hero-content">
         <span class="section-script">Welcome to</span>
         <h1 class="hero-heading">Coconut<br>Wellness Spa</h1>
+        <span class="hero-gold-line" aria-hidden="true"></span>
         <p class="hero-tagline">Where your body feels as fresh and smooth as a coconut</p>
         <div class="hero-btns">
           <a href="https://www.fresha.com/a/coconut-spa-wellness-midrand-102-allen-road-umi0yjoe"
@@ -78,21 +79,23 @@
 
     <!-- ABOUT -->
     <section class="about" id="about">
-      <div class="container about-inner">
-        <div class="about-left">
-          <span class="section-script">Our Story</span>
+      <div class="about-inner">
+        <div class="about-left reveal">
+          <div class="section-eyebrow">
+            <span class="section-eyebrow-line"></span>
+            <span class="section-eyebrow-text">Our Story</span>
+          </div>
           <blockquote class="about-quote">
-            "Your body deserves to feel as fresh and smooth as a coconut."
+            <span class="about-quote-mark" aria-hidden="true">"</span>
+            Your body deserves to feel as fresh and smooth as a coconut.
           </blockquote>
         </div>
-        <div class="about-right">
+        <div class="about-right reveal reveal-delay">
           <p>Located at the heart of Midrand, Glen Austin, we are a full-service wellness spa dedicated to making you feel completely restored — from the moment you arrive to the moment you leave.</p>
           <p>We offer a comprehensive range of treatments, from therapeutic massages and rejuvenating facials to couple escapes and birthday packages — all delivered by our team of skilled, caring therapists using premium, organic products.</p>
           <p>Open every day of the week, we are here whenever you need to pause, reset, and treat yourself.</p>
           <div class="about-rating">
-            <div class="about-stars" aria-label="4.8 out of 5 stars">
-              ★★★★★
-            </div>
+            <div class="about-stars" aria-label="4.8 out of 5 stars">★★★★★</div>
             <p class="about-rating-text"><strong>4.8</strong> from 697 verified reviews on Fresha</p>
           </div>
         </div>
@@ -101,85 +104,108 @@
 
     <!-- SERVICES -->
     <section class="services" id="services">
-      <div class="container">
-        <div class="section-header">
-          <span class="section-script">What We Offer</span>
+      <div class="services-inner">
+        <div class="services-header reveal">
+          <div class="section-eyebrow">
+            <span class="section-eyebrow-line"></span>
+            <span class="section-eyebrow-text">What We Offer</span>
+          </div>
           <h2 class="section-heading">Our Services</h2>
         </div>
-        <div class="services-grid">
+        <div class="services-list reveal reveal-delay">
 
-          <div class="service-card">
-            <div class="service-icon">💆</div>
-            <h3 class="service-name">Massage Therapy</h3>
-            <p class="service-desc">Swedish, deep tissue, back &amp; shoulder, and full-body massages tailored to your needs.</p>
+          <div class="service-item">
+            <span class="service-num">01</span>
+            <div class="service-body">
+              <h3 class="service-name">Massage Therapy</h3>
+              <p class="service-desc">Swedish, deep tissue, back &amp; shoulder, and full-body massages tailored to your needs.</p>
+            </div>
             <span class="service-price">From R300</span>
           </div>
 
-          <div class="service-card">
-            <div class="service-icon">✨</div>
-            <h3 class="service-name">Skin Therapy</h3>
-            <p class="service-desc">Revitalising facials and advanced skin treatments using organic products.</p>
-            <span class="service-price">Contact for pricing</span>
+          <div class="service-item">
+            <span class="service-num">02</span>
+            <div class="service-body">
+              <h3 class="service-name">Skin Therapy</h3>
+              <p class="service-desc">Revitalising facials and advanced skin treatments using organic products.</p>
+            </div>
+            <span class="service-price">Enquire</span>
           </div>
 
-          <div class="service-card">
-            <div class="service-icon">🌿</div>
-            <h3 class="service-name">Body Therapy</h3>
-            <p class="service-desc">Full-body scrubs, wraps, and treatments that leave your skin glowing.</p>
-            <span class="service-price">Contact for pricing</span>
+          <div class="service-item">
+            <span class="service-num">03</span>
+            <div class="service-body">
+              <h3 class="service-name">Body Therapy</h3>
+              <p class="service-desc">Full-body scrubs, wraps, and treatments that leave your skin glowing.</p>
+            </div>
+            <span class="service-price">Enquire</span>
           </div>
 
-          <div class="service-card">
-            <div class="service-icon">💅</div>
-            <h3 class="service-name">Hands &amp; Feet</h3>
-            <p class="service-desc">Manicures, pedicures, and nail treatments for perfectly polished results.</p>
-            <span class="service-price">Contact for pricing</span>
+          <div class="service-item">
+            <span class="service-num">04</span>
+            <div class="service-body">
+              <h3 class="service-name">Hands &amp; Feet</h3>
+              <p class="service-desc">Manicures, pedicures, and nail treatments for perfectly polished results.</p>
+            </div>
+            <span class="service-price">Enquire</span>
           </div>
 
-          <div class="service-card">
-            <div class="service-icon">🧖</div>
-            <h3 class="service-name">Waxing &amp; Tinting</h3>
-            <p class="service-desc">Professional waxing and brow/lash tinting services.</p>
-            <span class="service-price">Contact for pricing</span>
+          <div class="service-item">
+            <span class="service-num">05</span>
+            <div class="service-body">
+              <h3 class="service-name">Waxing &amp; Tinting</h3>
+              <p class="service-desc">Professional waxing and brow/lash tinting services.</p>
+            </div>
+            <span class="service-price">Enquire</span>
           </div>
 
-          <div class="service-card">
-            <div class="service-icon">🌙</div>
-            <h3 class="service-name">Wellness Therapy</h3>
-            <p class="service-desc">Holistic wellness treatments to restore balance and calm.</p>
-            <span class="service-price">Contact for pricing</span>
+          <div class="service-item">
+            <span class="service-num">06</span>
+            <div class="service-body">
+              <h3 class="service-name">Wellness Therapy</h3>
+              <p class="service-desc">Holistic wellness treatments to restore balance and calm.</p>
+            </div>
+            <span class="service-price">Enquire</span>
           </div>
 
-          <div class="service-card">
-            <div class="service-icon">❤️</div>
-            <h3 class="service-name">Couple Therapy</h3>
-            <p class="service-desc">Soulmate Escape and couple packages — side-by-side relaxation for two.</p>
+          <div class="service-item">
+            <span class="service-num">07</span>
+            <div class="service-body">
+              <h3 class="service-name">Couple Therapy</h3>
+              <p class="service-desc">Soulmate Escape and couple packages — side-by-side relaxation for two.</p>
+            </div>
             <span class="service-price">From R1,350</span>
           </div>
 
-          <div class="service-card">
-            <div class="service-icon">🎂</div>
-            <h3 class="service-name">Birthday Packages</h3>
-            <p class="service-desc">Celebrate in style with curated spa packages for birthdays and special occasions.</p>
-            <span class="service-price">Contact for pricing</span>
+          <div class="service-item">
+            <span class="service-num">08</span>
+            <div class="service-body">
+              <h3 class="service-name">Birthday Packages</h3>
+              <p class="service-desc">Celebrate in style with curated spa packages for birthdays and special occasions.</p>
+            </div>
+            <span class="service-price">Enquire</span>
           </div>
 
-          <div class="service-card">
-            <div class="service-icon">🏊</div>
-            <h3 class="service-name">Pool Access</h3>
-            <p class="service-desc">Enjoy our on-site swimming pool — the perfect way to unwind before or after a treatment.</p>
-            <span class="service-price">Contact for pricing</span>
+          <div class="service-item">
+            <span class="service-num">09</span>
+            <div class="service-body">
+              <h3 class="service-name">Pool Access</h3>
+              <p class="service-desc">Enjoy our on-site swimming pool — the perfect way to unwind before or after a treatment.</p>
+            </div>
+            <span class="service-price">Enquire</span>
           </div>
 
-          <div class="service-card">
-            <div class="service-icon">🛁</div>
-            <h3 class="service-name">Spa Facilities</h3>
-            <p class="service-desc">Access to our sauna, showers, lockers, and relaxation lounge.</p>
-            <span class="service-price">Contact for pricing</span>
+          <div class="service-item">
+            <span class="service-num">10</span>
+            <div class="service-body">
+              <h3 class="service-name">Spa Facilities</h3>
+              <p class="service-desc">Access to our sauna, showers, lockers, and relaxation lounge.</p>
+            </div>
+            <span class="service-price">Enquire</span>
           </div>
 
         </div>
-        <div class="services-cta">
+        <div class="services-cta reveal">
           <a href="https://www.fresha.com/a/coconut-spa-wellness-midrand-102-allen-road-umi0yjoe"
              class="btn-primary" target="_blank" rel="noopener">View All &amp; Book on Fresha</a>
         </div>
@@ -189,97 +215,83 @@
     <!-- AMENITIES -->
     <section class="amenities" id="amenities">
       <div class="container">
-        <ul class="amenities-list" aria-label="Spa amenities">
-          <li class="amenity-item">
-            <span class="amenity-icon" aria-hidden="true">🏊</span>
-            <span class="amenity-label">Swimming Pool</span>
-          </li>
-          <li class="amenity-item">
-            <span class="amenity-icon" aria-hidden="true">🧖</span>
-            <span class="amenity-label">Sauna</span>
-          </li>
-          <li class="amenity-item">
-            <span class="amenity-icon" aria-hidden="true">🌿</span>
-            <span class="amenity-label">Organic Products</span>
-          </li>
-          <li class="amenity-item">
-            <span class="amenity-icon" aria-hidden="true">🚗</span>
-            <span class="amenity-label">Parking Available</span>
-          </li>
-          <li class="amenity-item">
-            <span class="amenity-icon" aria-hidden="true">👶</span>
-            <span class="amenity-label">Kid-Friendly</span>
-          </li>
-          <li class="amenity-item">
-            <span class="amenity-icon" aria-hidden="true">♿</span>
-            <span class="amenity-label">Wheelchair Accessible</span>
-          </li>
-        </ul>
+        <div class="amenities-row" role="list" aria-label="Spa amenities">
+          <span class="amenity-text" role="listitem">Swimming Pool</span>
+          <span class="amenity-sep" aria-hidden="true"></span>
+          <span class="amenity-text" role="listitem">Sauna</span>
+          <span class="amenity-sep" aria-hidden="true"></span>
+          <span class="amenity-text" role="listitem">Organic Products</span>
+          <span class="amenity-sep" aria-hidden="true"></span>
+          <span class="amenity-text" role="listitem">Parking Available</span>
+          <span class="amenity-sep" aria-hidden="true"></span>
+          <span class="amenity-text" role="listitem">Kid-Friendly</span>
+          <span class="amenity-sep" aria-hidden="true"></span>
+          <span class="amenity-text" role="listitem">Wheelchair Accessible</span>
+        </div>
       </div>
     </section>
 
     <!-- GALLERY -->
     <section class="gallery" id="gallery">
-      <div class="container">
-        <div class="section-header">
-          <span class="section-script">Take a Look</span>
-          <h2 class="section-heading">Our Space</h2>
+      <div class="gallery-header reveal">
+        <div class="section-eyebrow">
+          <span class="section-eyebrow-line"></span>
+          <span class="section-eyebrow-text">Take a Look</span>
         </div>
-        <div class="gallery-grid">
-          <figure class="gallery-item">
-            <picture>
-              <source srcset="assets/images/d4eb3c8c-908e-4d84-bda3-0440813806e8-CoconutSpaWellness-ZA-Gauteng-Midrand-GlenAustinAh-Fresha.avif" type="image/avif" />
-              <!-- TODO: add JPEG fallback once generated -->
-              <img src="assets/images/d4eb3c8c-908e-4d84-bda3-0440813806e8-CoconutSpaWellness-ZA-Gauteng-Midrand-GlenAustinAh-Fresha.avif"
-                   alt="Coconut Spa &amp; Wellness treatment room" loading="lazy" />
-            </picture>
-          </figure>
-          <figure class="gallery-item">
-            <picture>
-              <source srcset="assets/images/dd391bee-1969-4543-9061-4d64a8b48d17-CoconutSpaWellness-ZA-Gauteng-Midrand-GlenAustinAh-Fresha.avif" type="image/avif" />
-              <!-- TODO: add JPEG fallback once generated -->
-              <img src="assets/images/dd391bee-1969-4543-9061-4d64a8b48d17-CoconutSpaWellness-ZA-Gauteng-Midrand-GlenAustinAh-Fresha.avif"
-                   alt="Coconut Spa &amp; Wellness relaxation area" loading="lazy" />
-            </picture>
-          </figure>
-          <figure class="gallery-item">
-            <picture>
-              <source srcset="assets/images/ad362096-e85c-44d1-9d95-55182be72e94-CoconutSpaWellness-ZA-Gauteng-Midrand-GlenAustinAh-Fresha.avif" type="image/avif" />
-              <!-- TODO: add JPEG fallback once generated -->
-              <img src="assets/images/ad362096-e85c-44d1-9d95-55182be72e94-CoconutSpaWellness-ZA-Gauteng-Midrand-GlenAustinAh-Fresha.avif"
-                   alt="Coconut Spa &amp; Wellness spa interior" loading="lazy" />
-            </picture>
-          </figure>
-        </div>
+        <h2 class="section-heading">Our Space</h2>
+      </div>
+      <div class="gallery-grid">
+        <figure class="gallery-item">
+          <picture>
+            <source srcset="assets/images/d4eb3c8c-908e-4d84-bda3-0440813806e8-CoconutSpaWellness-ZA-Gauteng-Midrand-GlenAustinAh-Fresha.avif" type="image/avif" />
+            <!-- TODO: add JPEG fallback once generated -->
+            <img src="assets/images/d4eb3c8c-908e-4d84-bda3-0440813806e8-CoconutSpaWellness-ZA-Gauteng-Midrand-GlenAustinAh-Fresha.avif"
+                 alt="Coconut Spa &amp; Wellness treatment room" loading="lazy" />
+          </picture>
+        </figure>
+        <figure class="gallery-item">
+          <picture>
+            <source srcset="assets/images/dd391bee-1969-4543-9061-4d64a8b48d17-CoconutSpaWellness-ZA-Gauteng-Midrand-GlenAustinAh-Fresha.avif" type="image/avif" />
+            <!-- TODO: add JPEG fallback once generated -->
+            <img src="assets/images/dd391bee-1969-4543-9061-4d64a8b48d17-CoconutSpaWellness-ZA-Gauteng-Midrand-GlenAustinAh-Fresha.avif"
+                 alt="Coconut Spa &amp; Wellness relaxation area" loading="lazy" />
+          </picture>
+        </figure>
+        <figure class="gallery-item">
+          <picture>
+            <source srcset="assets/images/ad362096-e85c-44d1-9d95-55182be72e94-CoconutSpaWellness-ZA-Gauteng-Midrand-GlenAustinAh-Fresha.avif" type="image/avif" />
+            <!-- TODO: add JPEG fallback once generated -->
+            <img src="assets/images/ad362096-e85c-44d1-9d95-55182be72e94-CoconutSpaWellness-ZA-Gauteng-Midrand-GlenAustinAh-Fresha.avif"
+                 alt="Coconut Spa &amp; Wellness spa interior" loading="lazy" />
+          </picture>
+        </figure>
       </div>
     </section>
 
     <!-- REVIEWS -->
     <section class="reviews" id="reviews">
       <div class="container">
-        <div class="section-header">
-          <span class="section-script">Kind Words</span>
-          <h2 class="section-heading">What Our Guests Say</h2>
-        </div>
-        <div class="review-featured">
-          <p class="review-quote">"Absolutely amazing experience from start to finish. The team is so professional and welcoming. I left feeling completely renewed. This is my go-to spot in Midrand!"</p>
-          <div class="review-meta">
+        <div class="reviews-inner">
+          <span class="review-opening-mark" aria-hidden="true">"</span>
+          <p class="review-quote reveal">Absolutely amazing experience from start to finish. The team is so professional and welcoming. I left feeling completely renewed. This is my go-to spot in Midrand!</p>
+          <div class="review-meta reveal reveal-delay">
             <span class="review-stars" aria-label="5 stars">★★★★★</span>
-            <span class="review-author">— Verified Fresha Guest</span>
+            <span class="review-author">Verified Fresha Guest</span>
           </div>
-        </div>
-        <div class="review-cards">
-          <div class="review-card">
-            <p class="review-card-text">"The Swedish massage was heavenly. Zandile is so skilled — I booked again before I even left."</p>
-            <span class="review-card-stars">★★★★★</span>
-          </div>
-          <div class="review-card">
-            <p class="review-card-text">"Birthday package for my girls was perfect. They made us feel so special. Thank you Coconut Spa!"</p>
-            <span class="review-card-stars">★★★★★</span>
-          </div>
-          <div class="review-card">
-            <p class="review-card-text">"Brought my husband for the couple escape. Best decision we made. We will be back every month!"</p>
-            <span class="review-card-stars">★★★★★</span>
+          <div class="review-divider" aria-hidden="true"></div>
+          <div class="review-secondary reveal reveal-delay">
+            <div class="review-secondary-item">
+              <p class="review-secondary-text">"The Swedish massage was heavenly. Zandile is so skilled — I booked again before I even left."</p>
+              <span class="review-secondary-stars">★★★★★</span>
+            </div>
+            <div class="review-secondary-item">
+              <p class="review-secondary-text">"Birthday package for my girls was perfect. They made us feel so special. Thank you Coconut Spa!"</p>
+              <span class="review-secondary-stars">★★★★★</span>
+            </div>
+            <div class="review-secondary-item">
+              <p class="review-secondary-text">"Brought my husband for the couple escape. Best decision we made. We will be back every month!"</p>
+              <span class="review-secondary-stars">★★★★★</span>
+            </div>
           </div>
         </div>
       </div>
@@ -287,15 +299,18 @@
 
     <!-- CONTACT -->
     <section class="contact" id="contact">
-      <div class="container contact-inner">
-        <div class="contact-left">
-          <span class="section-script">Come Visit Us</span>
-          <h2 class="section-heading">Ready to Unwind?</h2>
+      <div class="contact-inner">
+        <div class="contact-left reveal">
+          <div class="section-eyebrow">
+            <span class="section-eyebrow-line"></span>
+            <span class="section-eyebrow-text">Come Visit Us</span>
+          </div>
+          <h2 class="section-heading">Ready to<br>Unwind?</h2>
           <p class="contact-body">Book your appointment online in seconds, or get in touch with our team — we'd love to welcome you.</p>
           <a href="https://www.fresha.com/a/coconut-spa-wellness-midrand-102-allen-road-umi0yjoe"
-             class="btn-primary contact-book-btn" target="_blank" rel="noopener">Book on Fresha</a>
+             class="btn-primary" target="_blank" rel="noopener">Book on Fresha</a>
         </div>
-        <div class="contact-right">
+        <div class="contact-right reveal reveal-delay">
           <div class="contact-detail">
             <span class="contact-detail-label">Address</span>
             <p>102 Allen Road, Glen Austin AH<br>Midrand, Gauteng, South Africa</p>
@@ -319,7 +334,7 @@
 
   <!-- FOOTER -->
   <footer class="footer">
-    <div class="container footer-inner">
+    <div class="footer-inner">
       <a href="#home" class="footer-logo" aria-label="Coconut Wellness Spa — back to top">
         <span class="footer-logo-name">COCONUT</span>
         <span class="footer-logo-script">Wellness Spa</span>

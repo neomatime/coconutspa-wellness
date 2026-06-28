@@ -1,19 +1,23 @@
 :root {
-  --color-cream: #F5EDD8;
+  --color-white: #FFFFFF;
+  --color-stone: #F8F5F0;
+  --color-cream: #F8F5F0;
+  --color-cream-dark: #F0EBE3;
   --color-gold: #C9A84C;
-  --color-gold-faint: rgba(201, 168, 76, 0.25);
+  --color-gold-faint: rgba(201, 168, 76, 0.12);
   --color-espresso: #2C1A0E;
-  --color-warm-white: #FDFAF4;
+  --color-ink: #0D0806;
   --color-teak: #7A5C3A;
-  --color-cream-dark: #EFE5CC;
+  --color-warm-white: #FFFFFF;
 
+  --font-display: 'Cormorant Garamond', Georgia, serif;
   --font-primary: 'Balimo', Georgia, serif;
   --font-script: 'Great Vibes', cursive;
 
-  --radius-card: 12px;
-  --radius-btn: 6px;
+  --radius-card: 0px;
+  --radius-btn: 2px;
 
   --max-width: 1200px;
-  --section-pad: 5rem 1.5rem;
-  --section-pad-mobile: 3rem 1.25rem;
+  --section-pad: 8rem 2rem;
+  --section-pad-mobile: 5rem 1.25rem;
 }
