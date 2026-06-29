@@ -139,3 +139,261 @@ window.addEventListener('load', function () {
     contactForm.reset();
   });
 })();
+
+(function () {
+  var modal = document.getElementById('booking-modal');
+  if (!modal) return;
+
+  var dialog = modal.querySelector('.booking-dialog');
+  var teamWrap = modal.querySelector('[data-booking-team]');
+  var servicesWrap = modal.querySelector('[data-booking-services]');
+  var timesWrap = modal.querySelector('[data-booking-times]');
+  var dateInput = modal.querySelector('[data-booking-date]');
+  var totalEl = modal.querySelector('[data-booking-total]');
+  var summaryEl = modal.querySelector('[data-booking-summary]');
+  var nextBtn = modal.querySelector('[data-booking-next]');
+  var backBtn = modal.querySelector('[data-booking-back]');
+  var progressItems = Array.prototype.slice.call(modal.querySelectorAll('.booking-progress li'));
+  var progressFill = modal.querySelector('.booking-progress-line span');
+  var lastFocused = null;
+  var currentStep = 1;
+  var deposit = 650;
+  var state = {
+    team: null,
+    services: [],
+    date: '',
+    time: '',
+    paid: false
+  };
+
+  var team = [
+    { id: 'nthabeleng', name: 'Nthabeleng', role: 'Consultant', initial: 'N' },
+    { id: 'zandile', name: 'Zandile', role: 'Beauty Therapist', initial: 'Z' },
+    { id: 'sindi', name: 'Sindi', role: 'Beauty Therapist', initial: 'S' },
+    { id: 'simphiwe', name: 'Simphiwe', role: 'Therapist', initial: 'S' },
+    { id: 'goodness', name: 'Goodness', role: 'Team Member', initial: 'G' }
+  ];
+
+  var services = [
+    { id: 'back-neck-shoulder', name: 'Back, Neck & Shoulder Massage', duration: '30 min', price: 300, description: 'Focused relief for tension held in the upper body.' },
+    { id: 'swedish-massage', name: 'Swedish Full Body Massage', duration: '60 min', price: 650, description: 'A calming full-body massage for deep relaxation.' },
+    { id: 'deep-tissue', name: 'Deep Tissue Massage', duration: '60 min', price: 750, description: 'Firm therapeutic pressure for tired muscles.' },
+    { id: 'skin-therapy', name: 'Revitalising Skin Therapy', duration: '60 min', price: 700, description: 'Organic facial care for a refreshed, healthy glow.' },
+    { id: 'hands-feet', name: 'Hands & Feet Ritual', duration: '75 min', price: 550, description: 'A polished manicure and pedicure treatment.' },
+    { id: 'couple-therapy', name: 'Couple Therapy Escape', duration: '90 min', price: 1350, description: 'A side-by-side spa experience for two guests.' },
+    { id: 'body-therapy', name: 'Body Therapy Glow', duration: '75 min', price: 850, description: 'Exfoliation and body care for soft, radiant skin.' },
+    { id: 'birthday-package', name: 'Birthday Spa Package', duration: '120 min', price: 1800, description: 'A celebratory spa package for special occasions.' }
+  ];
+
+  var times = ['08:00', '09:30', '11:00', '12:30', '14:00', '15:30', '17:00', '18:00'];
+
+  function formatMoney(value) {
+    return 'R' + value.toLocaleString('en-ZA');
+  }
+
+  function selectedServices() {
+    return services.filter(function (service) {
+      return state.services.indexOf(service.id) !== -1;
+    });
+  }
+
+  function total() {
+    return selectedServices().reduce(function (sum, service) {
+      return sum + service.price;
+    }, 0);
+  }
+
+  function setValidation(key, message) {
+    var el = modal.querySelector('[data-booking-validation="' + key + '"]');
+    if (el) el.textContent = message || '';
+  }
+
+  function clearValidation() {
+    ['team', 'services', 'datetime', 'summary'].forEach(function (key) {
+      setValidation(key, '');
+    });
+  }
+
+  function renderTeam() {
+    teamWrap.innerHTML = team.map(function (member) {
+      var selected = state.team === member.id;
+      return '<button class="booking-card booking-team-card' + (selected ? ' is-selected' : '') + '" type="button" data-team-id="' + member.id + '" aria-pressed="' + selected + '">' +
+        '<span class="booking-avatar" aria-hidden="true">' + member.initial + '</span>' +
+        '<h4>' + member.name + '</h4>' +
+        '<p>' + member.role + '</p>' +
+      '</button>';
+    }).join('');
+  }
+
+  function renderServices() {
+    servicesWrap.innerHTML = services.map(function (service) {
+      var selected = state.services.indexOf(service.id) !== -1;
+      return '<button class="booking-card booking-service-card' + (selected ? ' is-selected' : '') + '" type="button" data-service-id="' + service.id + '" aria-pressed="' + selected + '">' +
+        '<span><h4>' + service.name + '</h4>' +
+        '<span class="booking-service-meta"><span>' + service.duration + '</span><span>' + formatMoney(service.price) + '</span></span>' +
+        '<p>' + service.description + '</p></span>' +
+        '<span class="booking-check" aria-hidden="true">&#10003;</span>' +
+      '</button>';
+    }).join('');
+    totalEl.textContent = formatMoney(total());
+  }
+
+  function renderTimes() {
+    timesWrap.innerHTML = times.map(function (time) {
+      var selected = state.time === time;
+      return '<button class="booking-time' + (selected ? ' is-selected' : '') + '" type="button" data-time="' + time + '" aria-pressed="' + selected + '">' + time + '</button>';
+    }).join('');
+  }
+
+  function renderSummary() {
+    var member = team.find(function (item) { return item.id === state.team; });
+    var serviceList = selectedServices();
+    var fullAmount = total();
+    var balance = Math.max(fullAmount - deposit, 0);
+    summaryEl.innerHTML =
+      '<div class="booking-summary-row"><span>Team Member</span><strong>' + (member ? member.name : 'Not selected') + '</strong></div>' +
+      '<div class="booking-summary-row"><span>Services</span><strong class="booking-summary-services">' + serviceList.map(function (service) { return '<span>' + service.name + ' - ' + formatMoney(service.price) + '</span>'; }).join('') + '</strong></div>' +
+      '<div class="booking-summary-row"><span>Date</span><strong>' + (state.date || 'Not selected') + '</strong></div>' +
+      '<div class="booking-summary-row"><span>Time</span><strong>' + (state.time || 'Not selected') + '</strong></div>' +
+      '<div class="booking-summary-row"><span>Full Amount</span><strong>' + formatMoney(fullAmount) + '</strong></div>' +
+      '<div class="booking-summary-row"><span>Required Deposit</span><strong>' + formatMoney(deposit) + '</strong></div>' +
+      '<div class="booking-summary-row"><span>Balance Due</span><strong>' + formatMoney(balance) + '</strong></div>';
+    if (fullAmount < deposit) {
+      setValidation('summary', 'The selected service total must be at least R650 to continue. Please add another treatment or choose a higher-value service.');
+    } else {
+      setValidation('summary', '');
+    }
+  }
+
+  function updateProgress() {
+    progressItems.forEach(function (item, index) {
+      item.dataset.step = String(index + 1);
+      item.classList.toggle('is-active', index + 1 === currentStep);
+      item.classList.toggle('is-complete', index + 1 < currentStep);
+    });
+    if (progressFill) progressFill.style.setProperty('--booking-progress', ((currentStep - 1) / 4 * 100) + '%');
+  }
+
+  function showStep(step) {
+    currentStep = step;
+    Array.prototype.forEach.call(modal.querySelectorAll('.booking-step'), function (panel) {
+      panel.hidden = Number(panel.dataset.step) !== currentStep;
+    });
+    backBtn.disabled = currentStep === 1;
+    if (currentStep === 4) renderSummary();
+    nextBtn.textContent = currentStep === 4 ? 'Pay Deposit' : (currentStep === 5 ? 'Close' : 'Next');
+    updateProgress();
+  }
+
+  function validateStep() {
+    clearValidation();
+    if (currentStep === 1 && !state.team) {
+      setValidation('team', 'Please choose a team member to continue.');
+      return false;
+    }
+    if (currentStep === 2 && state.services.length === 0) {
+      setValidation('services', 'Please select at least one service.');
+      return false;
+    }
+    if (currentStep === 3 && (!state.date || !state.time)) {
+      setValidation('datetime', 'Please select both a preferred date and an available time.');
+      return false;
+    }
+    if (currentStep === 4 && total() < deposit) {
+      setValidation('summary', 'The selected service total must be at least R650 to continue.');
+      return false;
+    }
+    return true;
+  }
+
+  function openBooking(event) {
+    if (event) event.preventDefault();
+    lastFocused = document.activeElement;
+    modal.classList.add('is-open');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('booking-open');
+    clearValidation();
+    showStep(1);
+    window.setTimeout(function () { dialog.focus(); }, 20);
+  }
+
+  function closeBooking() {
+    modal.classList.remove('is-open');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('booking-open');
+    if (lastFocused && typeof lastFocused.focus === 'function') lastFocused.focus();
+  }
+
+  document.querySelectorAll('[data-booking-trigger]').forEach(function (trigger) {
+    trigger.addEventListener('click', openBooking);
+  });
+
+  modal.querySelectorAll('[data-booking-close]').forEach(function (close) {
+    close.addEventListener('click', closeBooking);
+  });
+
+  document.addEventListener('keydown', function (event) {
+    if (event.key === 'Escape' && modal.classList.contains('is-open')) closeBooking();
+  });
+
+  teamWrap.addEventListener('click', function (event) {
+    var card = event.target.closest('[data-team-id]');
+    if (!card) return;
+    state.team = card.dataset.teamId;
+    setValidation('team', '');
+    renderTeam();
+  });
+
+  servicesWrap.addEventListener('click', function (event) {
+    var card = event.target.closest('[data-service-id]');
+    if (!card) return;
+    var id = card.dataset.serviceId;
+    var index = state.services.indexOf(id);
+    if (index === -1) state.services.push(id);
+    else state.services.splice(index, 1);
+    setValidation('services', '');
+    renderServices();
+  });
+
+  timesWrap.addEventListener('click', function (event) {
+    var slot = event.target.closest('[data-time]');
+    if (!slot) return;
+    state.time = slot.dataset.time;
+    setValidation('datetime', '');
+    renderTimes();
+  });
+
+  dateInput.addEventListener('change', function () {
+    state.date = dateInput.value;
+    setValidation('datetime', '');
+  });
+
+  backBtn.addEventListener('click', function () {
+    if (currentStep > 1) showStep(currentStep - 1);
+  });
+
+  nextBtn.addEventListener('click', function () {
+    if (currentStep === 5) {
+      closeBooking();
+      return;
+    }
+    if (!validateStep()) return;
+    if (currentStep === 4) {
+      state.paid = true;
+      showStep(5);
+      return;
+    }
+    showStep(currentStep + 1);
+  });
+
+  var today = new Date();
+  var yyyy = today.getFullYear();
+  var mm = String(today.getMonth() + 1).padStart(2, '0');
+  var dd = String(today.getDate()).padStart(2, '0');
+  dateInput.min = yyyy + '-' + mm + '-' + dd;
+
+  renderTeam();
+  renderServices();
+  renderTimes();
+  showStep(1);
+})();
