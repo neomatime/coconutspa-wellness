@@ -125,3 +125,17 @@ window.addEventListener('load', function () {
     });
   });
 })();
+
+(function () {
+  var contactForm = document.querySelector('.contact-form');
+  if (!contactForm) return;
+
+  contactForm.addEventListener('submit', function (event) {
+    event.preventDefault();
+    var status = contactForm.querySelector('.contact-form-status');
+    if (status) {
+      status.textContent = 'Thank you. Please call or book on Fresha for the fastest confirmation while online enquiries are being connected.';
+    }
+    contactForm.reset();
+  });
+})();

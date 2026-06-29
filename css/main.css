@@ -1096,6 +1096,119 @@
 .contact-link:hover {
   opacity: 1;
 }
+.contact-form {
+  display: grid;
+  gap: 1rem;
+  max-width: 520px;
+  margin-top: 2rem;
+}
+
+.contact-form-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.contact-field {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.contact-field span {
+  font-family: var(--font-primary);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(44, 26, 14, 0.72);
+}
+
+.contact-field input,
+.contact-field textarea {
+  width: 100%;
+  border: 1px solid rgba(44, 26, 14, 0.16);
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.82);
+  color: var(--color-espresso);
+  font: inherit;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  padding: 0.9rem 1rem;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.contact-field textarea {
+  min-height: 132px;
+  resize: vertical;
+}
+
+.contact-field input:focus,
+.contact-field textarea:focus {
+  background: var(--color-white);
+  border-color: rgba(122, 92, 58, 0.72);
+  box-shadow: 0 0 0 3px rgba(122, 92, 58, 0.12);
+}
+
+.contact-form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem 1.25rem;
+  margin-top: 0.35rem;
+}
+
+.contact-form-actions .btn-primary {
+  appearance: none;
+}
+
+.contact-form-status {
+  min-height: 1.4em;
+  margin: 0;
+  font-size: 0.82rem;
+  color: rgba(122, 92, 58, 0.86);
+  line-height: 1.6;
+}
+
+.contact-form-booking,
+.contact-map-link {
+  font-family: var(--font-primary);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-espresso);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  transition: color 0.2s ease, opacity 0.2s ease;
+}
+
+.contact-form-booking:hover,
+.contact-map-link:hover {
+  color: var(--color-teak);
+}
+
+.contact-map-link {
+  display: inline-block;
+  margin-top: 0.8rem;
+}
+
+.contact-map {
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  min-height: 280px;
+  border: 1px solid rgba(44, 26, 14, 0.16);
+  border-radius: 6px;
+  box-shadow: 0 24px 50px -36px rgba(13, 8, 6, 0.38);
+  background: var(--color-stone);
+}
+
+.contact-map iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
 
 @media (max-width: 1024px) {
   .contact-inner { grid-template-columns: 1fr; gap: 3.5rem; }
@@ -1103,6 +1216,8 @@
 
 @media (max-width: 768px) {
   .contact { padding: 5rem 1.25rem; }
+  .contact-form-row { grid-template-columns: 1fr; }
+  .contact-map { min-height: 240px; }
 }
 /* ═══════════════════════════════════════════════
    FOOTER

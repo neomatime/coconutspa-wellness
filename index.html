@@ -13,9 +13,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Great+Vibes&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/tokens.css?v=20260629i" />
-  <link rel="stylesheet" href="css/base.css?v=20260629i" />
-  <link rel="stylesheet" href="css/main.css?v=20260629i" />
+  <link rel="stylesheet" href="css/tokens.css?v=20260629k" />
+  <link rel="stylesheet" href="css/base.css?v=20260629k" />
+  <link rel="stylesheet" href="css/main.css?v=20260629k" />
   <link rel="preload" as="image" href="assets/images/hero-scroll/ezgif-frame-001.jpg" />
 </head>
 <body>
@@ -382,14 +382,46 @@
             <span class="section-eyebrow-text">Come Visit Us</span>
           </div>
           <h2 class="section-heading">Ready to<br>Unwind?</h2>
-          <p class="contact-body">Book your appointment online in seconds, or get in touch with our team — we'd love to welcome you.</p>
-          <a href="https://www.fresha.com/a/coconut-spa-wellness-midrand-102-allen-road-umi0yjoe"
-             class="btn-primary" target="_blank" rel="noopener">Book on Fresha</a>
+          <p class="contact-body">Book your appointment online in seconds, or send us a note and our team will help you plan your visit.</p>
+          <form class="contact-form" action="#" method="post">
+            <div class="contact-form-row">
+              <label class="contact-field">
+                <span>Name</span>
+                <input type="text" name="name" autocomplete="name" required />
+              </label>
+              <label class="contact-field">
+                <span>Phone</span>
+                <input type="tel" name="phone" autocomplete="tel" required />
+              </label>
+            </div>
+            <label class="contact-field">
+              <span>Email</span>
+              <input type="email" name="email" autocomplete="email" />
+            </label>
+            <label class="contact-field">
+              <span>Message</span>
+              <textarea name="message" rows="5" required></textarea>
+            </label>
+            <div class="contact-form-actions">
+              <button type="submit" class="btn-primary">Send Enquiry</button>
+              <a href="https://www.fresha.com/a/coconut-spa-wellness-midrand-102-allen-road-umi0yjoe"
+                 class="contact-form-booking" target="_blank" rel="noopener">Book on Fresha</a>
+            </div>
+            <p class="contact-form-status" aria-live="polite"></p>
+          </form>
         </div>
         <div class="contact-right reveal reveal-delay">
           <div class="contact-detail">
             <span class="contact-detail-label">Address</span>
             <p>102 Allen Road, Glen Austin AH<br>Midrand, Gauteng, South Africa</p>
+            <a class="contact-map-link" href="https://www.google.com/maps/search/?api=1&amp;query=102%20Allen%20Road%2C%20Glen%20Austin%20AH%2C%20Midrand%2C%20Gauteng%2C%20South%20Africa" target="_blank" rel="noopener">Open in Google Maps</a>
+          </div>
+          <div class="contact-map" aria-label="Map location for Coconut Spa and Wellness">
+            <iframe
+              title="Coconut Spa and Wellness map"
+              src="https://www.google.com/maps?q=102%20Allen%20Road%2C%20Glen%20Austin%20AH%2C%20Midrand%2C%20Gauteng%2C%20South%20Africa&amp;output=embed"
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"></iframe>
           </div>
           <div class="contact-detail">
             <span class="contact-detail-label">Hours</span>
@@ -442,8 +474,8 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
-  <script src="js/hero-scroll.js?v=20260629i" defer></script>
-  <script src="js/reveal.js?v=20260629i" defer></script>
-  <script src="js/main.js?v=20260629i" defer></script>
+  <script src="js/hero-scroll.js?v=20260629k" defer></script>
+  <script src="js/reveal.js?v=20260629k" defer></script>
+  <script src="js/main.js?v=20260629k" defer></script>
 </body>
 </html>
