@@ -1725,7 +1725,7 @@
   position: relative;
   z-index: 1;
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(6, 1fr);
   gap: 0.5rem;
   list-style: none;
   padding: 0;
@@ -1956,6 +1956,71 @@
   color: var(--color-espresso);
   font: inherit;
   padding: 0 1rem;
+}
+
+/* Details step — guest form */
+.booking-fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem 1.1rem;
+}
+
+.booking-field {
+  display: grid;
+  gap: 0.5rem;
+  min-width: 0;
+}
+
+.booking-field--full {
+  grid-column: 1 / -1;
+}
+
+.booking-field > span {
+  font-family: var(--font-primary);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-teak);
+}
+
+.booking-field > span em {
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  text-transform: none;
+  opacity: 0.6;
+}
+
+.booking-field input,
+.booking-field textarea {
+  width: 100%;
+  min-height: 48px;
+  border: 1px solid rgba(44, 26, 14, 0.16);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.82);
+  color: var(--color-espresso);
+  font: inherit;
+  padding: 0.7rem 1rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.booking-field textarea {
+  min-height: 96px;
+  line-height: 1.6;
+  resize: vertical;
+}
+
+.booking-field input::placeholder,
+.booking-field textarea::placeholder {
+  color: rgba(122, 92, 58, 0.5);
+}
+
+.booking-field input:focus,
+.booking-field textarea:focus {
+  outline: none;
+  border-color: var(--color-gold);
+  box-shadow: 0 0 0 3px rgba(201, 168, 76, 0.16);
 }
 
 .booking-time-grid {
@@ -2217,12 +2282,13 @@ body.booking-open {
   .booking-modal { padding: 0.75rem; align-items: end; }
   .booking-dialog { max-height: 94vh; padding: 1.25rem; border-radius: 8px 8px 0 0; }
   .booking-dialog-header { padding-right: 2.4rem; }
-  .booking-progress ol { grid-template-columns: repeat(5, minmax(40px, 1fr)); overflow: hidden; }
+  .booking-progress ol { grid-template-columns: repeat(6, minmax(32px, 1fr)); overflow: hidden; }
   .booking-progress li { min-height: 30px; font-size: 0; }
   .booking-progress li::before { content: attr(data-step); font-size: 10px; }
   .booking-team-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .booking-time-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .booking-service-card { grid-template-columns: 1fr; }
+  .booking-fields { grid-template-columns: 1fr; }
   .booking-check { position: absolute; top: 0.85rem; right: 0.85rem; }
   .booking-summary-row { display: grid; }
   .booking-summary-services { text-align: left; }

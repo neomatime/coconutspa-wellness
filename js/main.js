@@ -149,6 +149,10 @@ window.addEventListener('load', function () {
   var servicesWrap = modal.querySelector('[data-booking-services]');
   var timesWrap = modal.querySelector('[data-booking-times]');
   var dateInput = modal.querySelector('[data-booking-date]');
+  var nameInput = modal.querySelector('[data-booking-name]');
+  var emailInput = modal.querySelector('[data-booking-email]');
+  var contactInput = modal.querySelector('[data-booking-contact]');
+  var messageInput = modal.querySelector('[data-booking-message]');
   var totalEl = modal.querySelector('[data-booking-total]');
   var summaryEl = modal.querySelector('[data-booking-summary]');
   var nextBtn = modal.querySelector('[data-booking-next]');
@@ -166,7 +170,10 @@ window.addEventListener('load', function () {
     services: [],
     date: '',
     time: '',
-    paid: false
+    name: '',
+    email: '',
+    contact: '',
+    message: ''
   };
 
   var team = [
@@ -221,8 +228,14 @@ window.addEventListener('load', function () {
   }
 
   function clearValidation() {
-    ['team', 'services', 'datetime', 'summary'].forEach(function (key) {
+    ['team', 'services', 'datetime', 'details', 'summary'].forEach(function (key) {
       setValidation(key, '');
+    });
+  }
+
+  function escapeHtml(value) {
+    return String(value).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
     });
   }
 
@@ -262,12 +275,19 @@ window.addEventListener('load', function () {
     var serviceList = selectedServices();
     var fullAmount = total();
     var depositDue = Math.min(deposit, fullAmount);
-    summaryEl.innerHTML =
+    var html =
+      '<div class="booking-summary-row"><span>Name</span><strong>' + (escapeHtml(state.name) || 'Not provided') + '</strong></div>' +
+      '<div class="booking-summary-row"><span>Email</span><strong>' + (escapeHtml(state.email) || 'Not provided') + '</strong></div>' +
+      '<div class="booking-summary-row"><span>Contact</span><strong>' + (escapeHtml(state.contact) || 'Not provided') + '</strong></div>' +
       '<div class="booking-summary-row"><span>Team Member</span><strong>' + (member ? member.name : 'Not selected') + '</strong></div>' +
       '<div class="booking-summary-row"><span>Services</span><strong class="booking-summary-services">' + serviceList.map(function (service) { return '<span>' + service.name + ' &middot; ' + formatMoney(service.price) + '</span>'; }).join('') + '</strong></div>' +
       '<div class="booking-summary-row"><span>Date</span><strong>' + (formatDate(state.date) || 'Not selected') + '</strong></div>' +
-      '<div class="booking-summary-row"><span>Time</span><strong>' + (state.time || 'Not selected') + '</strong></div>' +
-      '<div class="booking-summary-row booking-summary-total"><span>Estimated Total</span><strong>' + formatMoney(fullAmount) + '</strong></div>';
+      '<div class="booking-summary-row"><span>Time</span><strong>' + (state.time || 'Not selected') + '</strong></div>';
+    if (state.message.trim()) {
+      html += '<div class="booking-summary-row"><span>Message</span><strong>' + escapeHtml(state.message) + '</strong></div>';
+    }
+    html += '<div class="booking-summary-row booking-summary-total"><span>Estimated Total</span><strong>' + formatMoney(fullAmount) + '</strong></div>';
+    summaryEl.innerHTML = html;
     summaryEl.innerHTML += '<p class="booking-summary-note">A ' + formatMoney(depositDue) + ' deposit secures your booking — paid securely when you confirm on Fresha. The balance is settled at the spa.</p>';
     setValidation('summary', '');
   }
@@ -277,6 +297,7 @@ window.addEventListener('load', function () {
     var member = team.find(function (item) { return item.id === state.team; });
     var serviceList = selectedServices();
     recapEl.innerHTML =
+      '<div class="booking-recap-row"><span>Guest</span><strong>' + (escapeHtml(state.name) || '—') + '</strong></div>' +
       '<div class="booking-recap-row"><span>Therapist</span><strong>' + (member ? member.name : '—') + '</strong></div>' +
       '<div class="booking-recap-row"><span>When</span><strong>' + (formatDate(state.date) || '—') + (state.time ? ' &middot; ' + state.time : '') + '</strong></div>' +
       '<div class="booking-recap-row"><span>Treatments</span><strong>' + (serviceList.length ? serviceList.map(function (s) { return s.name; }).join(', ') : '—') + '</strong></div>' +
@@ -289,7 +310,7 @@ window.addEventListener('load', function () {
       item.classList.toggle('is-active', index + 1 === currentStep);
       item.classList.toggle('is-complete', index + 1 < currentStep);
     });
-    if (progressFill) progressFill.style.setProperty('--booking-progress', ((currentStep - 1) / 4 * 100) + '%');
+    if (progressFill) progressFill.style.setProperty('--booking-progress', ((currentStep - 1) / 5 * 100) + '%');
   }
 
   function showStep(step) {
@@ -298,11 +319,14 @@ window.addEventListener('load', function () {
       panel.hidden = Number(panel.dataset.step) !== currentStep;
     });
     backBtn.disabled = currentStep === 1;
-    if (currentStep === 4) renderSummary();
-    if (currentStep === 5) renderRecap();
+    if (currentStep === 5) renderSummary();
+    if (currentStep === 6) renderRecap();
     // the confirmation step carries its own actions (Fresha / close)
-    if (actionsBar) actionsBar.hidden = currentStep === 5;
-    nextBtn.textContent = currentStep === 4 ? 'Confirm Booking' : 'Next';
+    if (actionsBar) actionsBar.hidden = currentStep === 6;
+    nextBtn.textContent = currentStep === 5 ? 'Confirm Booking' : 'Next';
+    if (currentStep === 4 && nameInput) {
+      window.setTimeout(function () { nameInput.focus(); }, 40);
+    }
     updateProgress();
   }
 
@@ -320,6 +344,20 @@ window.addEventListener('load', function () {
       setValidation('datetime', 'Please select both a preferred date and an available time.');
       return false;
     }
+    if (currentStep === 4) {
+      if (!state.name.trim()) {
+        setValidation('details', 'Please enter your full name.');
+        return false;
+      }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(state.email.trim())) {
+        setValidation('details', 'Please enter a valid email address.');
+        return false;
+      }
+      if (state.contact.trim().replace(/[^0-9]/g, '').length < 7) {
+        setValidation('details', 'Please enter a valid contact number.');
+        return false;
+      }
+    }
     return true;
   }
 
@@ -327,8 +365,12 @@ window.addEventListener('load', function () {
     if (event) event.preventDefault();
     lastFocused = document.activeElement;
     // start every booking fresh so prior selections never linger
-    state = { team: null, services: [], date: '', time: '' };
+    state = { team: null, services: [], date: '', time: '', name: '', email: '', contact: '', message: '' };
     if (dateInput) dateInput.value = '';
+    if (nameInput) nameInput.value = '';
+    if (emailInput) emailInput.value = '';
+    if (contactInput) contactInput.value = '';
+    if (messageInput) messageInput.value = '';
     renderTeam();
     renderServices();
     renderTimes();
@@ -408,13 +450,24 @@ window.addEventListener('load', function () {
     setValidation('datetime', '');
   });
 
+  // guest details — keep state in sync as the user types
+  [[nameInput, 'name'], [emailInput, 'email'], [contactInput, 'contact'], [messageInput, 'message']].forEach(function (pair) {
+    var input = pair[0];
+    var key = pair[1];
+    if (!input) return;
+    input.addEventListener('input', function () {
+      state[key] = input.value;
+      setValidation('details', '');
+    });
+  });
+
   backBtn.addEventListener('click', function () {
     if (currentStep > 1) showStep(currentStep - 1);
   });
 
   nextBtn.addEventListener('click', function () {
     if (!validateStep()) return;
-    showStep(Math.min(currentStep + 1, 5));
+    showStep(Math.min(currentStep + 1, 6));
   });
 
   var today = new Date();

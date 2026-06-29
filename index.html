@@ -13,9 +13,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Great+Vibes&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/tokens.css?v=20260629m" />
-  <link rel="stylesheet" href="css/base.css?v=20260629m" />
-  <link rel="stylesheet" href="css/main.css?v=20260629m" />
+  <link rel="stylesheet" href="css/tokens.css?v=20260629n" />
+  <link rel="stylesheet" href="css/base.css?v=20260629n" />
+  <link rel="stylesheet" href="css/main.css?v=20260629n" />
   <link rel="preload" as="image" href="assets/images/hero-scroll/ezgif-frame-001.jpg" />
 </head>
 <body>
@@ -77,7 +77,7 @@
           <p class="hero-tagline">Where your body feels as fresh and smooth as a coconut</p>
           <div class="hero-btns">
             <a href="https://www.fresha.com/a/coconut-spa-wellness-midrand-102-allen-road-umi0yjoe"
-               class="btn-primary" data-booking-trigger>Book an Appointment</a>
+               class="btn-primary" data-booking-trigger>Book Now</a>
             <a href="#services" class="btn-ghost">Explore Services</a>
           </div>
         </div>
@@ -229,7 +229,7 @@
         </div>
         <div class="services-cta reveal">
           <a href="https://www.fresha.com/a/coconut-spa-wellness-midrand-102-allen-road-umi0yjoe"
-             class="btn-primary" data-booking-trigger>View All &amp; Book on Fresha</a>
+             class="btn-primary" data-booking-trigger>Book Now</a>
         </div>
       </div>
     </section>
@@ -405,7 +405,7 @@
             <div class="contact-form-actions">
               <button type="submit" class="btn-primary">Send Enquiry</button>
               <a href="https://www.fresha.com/a/coconut-spa-wellness-midrand-102-allen-road-umi0yjoe"
-                 class="contact-form-booking" data-booking-trigger>Book on Fresha</a>
+                 class="contact-form-booking" data-booking-trigger>Book Now</a>
             </div>
             <p class="contact-form-status" aria-live="polite"></p>
           </form>
@@ -431,7 +431,7 @@
             <span class="contact-detail-label">Booking</span>
             <p>
               <a href="https://www.fresha.com/a/coconut-spa-wellness-midrand-102-allen-road-umi0yjoe"
-                 class="contact-link" data-booking-trigger>Book via Fresha</a>
+                 class="contact-link" data-booking-trigger>Book Now</a>
             </p>
           </div>
         </div>
@@ -488,6 +488,7 @@
           <li class="is-active">Team</li>
           <li>Services</li>
           <li>Date</li>
+          <li>Details</li>
           <li>Summary</li>
           <li>Confirm</li>
         </ol>
@@ -531,13 +532,39 @@
       <div class="booking-step" data-step="4" hidden>
         <div class="booking-step-heading">
           <span>Step 4</span>
+          <h3>Your Details</h3>
+        </div>
+        <div class="booking-fields">
+          <label class="booking-field">
+            <span>Full Name</span>
+            <input type="text" data-booking-name autocomplete="name" placeholder="e.g. Thandi Mokoena" />
+          </label>
+          <label class="booking-field">
+            <span>Email</span>
+            <input type="email" data-booking-email autocomplete="email" placeholder="you@example.com" />
+          </label>
+          <label class="booking-field">
+            <span>Contact Number</span>
+            <input type="tel" data-booking-contact autocomplete="tel" placeholder="071 234 5678" />
+          </label>
+          <label class="booking-field booking-field--full">
+            <span>Message <em>(optional)</em></span>
+            <textarea data-booking-message rows="3" placeholder="Anything we should know before your visit?"></textarea>
+          </label>
+        </div>
+        <p class="booking-validation" data-booking-validation="details"></p>
+      </div>
+
+      <div class="booking-step" data-step="5" hidden>
+        <div class="booking-step-heading">
+          <span>Step 5</span>
           <h3>Review Your Booking</h3>
         </div>
         <div class="booking-summary" data-booking-summary></div>
         <p class="booking-validation" data-booking-validation="summary"></p>
       </div>
 
-      <div class="booking-step" data-step="5" hidden>
+      <div class="booking-step" data-step="6" hidden>
         <div class="booking-confirmation">
           <span class="booking-confirmation-mark" aria-hidden="true">&#10003;</span>
           <h3>Your Spa Plan Is Ready</h3>
@@ -558,8 +585,8 @@
   </div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
-  <script src="js/hero-scroll.js?v=20260629m" defer></script>
-  <script src="js/reveal.js?v=20260629m" defer></script>
-  <script src="js/main.js?v=20260629m" defer></script>
+  <script src="js/hero-scroll.js?v=20260629n" defer></script>
+  <script src="js/reveal.js?v=20260629n" defer></script>
+  <script src="js/main.js?v=20260629n" defer></script>
 </body>
 </html>
