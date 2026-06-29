@@ -644,9 +644,9 @@
 
 .amenities {
   padding: 2.5rem 2rem;
-  background-color: #fff;
-  border-top: 1px solid rgba(201, 168, 76, 0.18);
-  border-bottom: 1px solid rgba(201, 168, 76, 0.18);
+  background: var(--color-teak);
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
 }
 
 .amenities-row {
@@ -662,7 +662,7 @@
   font-weight: 400;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--color-espresso);
+  color: rgba(255, 255, 255, 0.86);
   padding: 0.35rem 1.5rem;
 }
 
@@ -670,7 +670,7 @@
   display: inline-block;
   width: 1px;
   height: 12px;
-  background: rgba(201, 168, 76, 0.4);
+  background: rgba(255, 255, 255, 0.28);
   flex-shrink: 0;
 }
 
@@ -924,7 +924,10 @@
 
 .reviews {
   padding: 8rem 2rem;
-  background-color: #fff;
+  background:
+    linear-gradient(180deg, var(--color-teak) 0%, #6a4e31 100%);
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  border-bottom: 1px solid rgba(44, 26, 14, 0.18);
 }
 
 .reviews-inner {
@@ -938,7 +941,7 @@
   font-family: var(--font-display);
   font-size: 9rem;
   line-height: 0.55;
-  color: rgba(201, 168, 76, 0.18);
+  color: rgba(255, 255, 255, 0.16);
   margin-bottom: 1rem;
 }
 
@@ -947,7 +950,7 @@
   font-weight: 300;
   font-style: italic;
   font-size: clamp(1.6rem, 3.5vw, 2.5rem);
-  color: var(--color-espresso);
+  color: var(--color-white);
   line-height: 1.45;
   margin-bottom: 2rem;
 }
@@ -970,14 +973,14 @@
   font-size: 0.7rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--color-teak);
-  opacity: 0.7;
+  color: rgba(255, 255, 255, 0.72);
+  opacity: 1;
 }
 
 .review-divider {
   width: 50px;
   height: 1px;
-  background: rgba(201, 168, 76, 0.35);
+  background: rgba(255, 255, 255, 0.28);
   margin: 0 auto 3.5rem;
 }
 
@@ -990,17 +993,17 @@
 
 .review-secondary-item {
   padding-top: 1.5rem;
-  border-top: 1px solid rgba(13, 8, 6, 0.07);
+  border-top: 1px solid rgba(255, 255, 255, 0.18);
 }
 
 .review-secondary-text {
   font-family: var(--font-display);
   font-size: 1rem;
   font-style: italic;
-  color: var(--color-espresso);
+  color: rgba(255, 255, 255, 0.84);
   line-height: 1.65;
   margin-bottom: 0.75rem;
-  opacity: 0.9;
+  opacity: 1;
 }
 
 .review-secondary-stars {
@@ -1106,9 +1109,9 @@
 ═══════════════════════════════════════════════ */
 
 .footer {
-  background-color: #fff;
+  background: var(--color-teak);
   padding: 4rem 2rem 3rem;
-  border-top: 1px solid rgba(13, 8, 6, 0.07);
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 .footer-inner {
@@ -1133,7 +1136,7 @@
   font-weight: 600;
   font-size: 16px;
   letter-spacing: 0.32em;
-  color: var(--color-espresso);
+  color: var(--color-white);
   line-height: 1;
 }
 
@@ -1162,8 +1165,8 @@
   font-size: 10px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--color-teak);
-  opacity: 0.7;
+  color: rgba(255, 255, 255, 0.7);
+  opacity: 1;
   transition: color 0.2s ease, opacity 0.2s ease;
 }
 
@@ -1178,8 +1181,8 @@
 }
 
 .footer-social-link {
-  color: var(--color-teak);
-  opacity: 0.45;
+  color: rgba(255, 255, 255, 0.66);
+  opacity: 1;
   transition: opacity 0.2s ease, color 0.2s ease;
 }
 
@@ -1191,8 +1194,8 @@
 .footer-copy {
   font-size: 0.65rem;
   letter-spacing: 0.08em;
-  color: var(--color-teak);
-  opacity: 0.4;
+  color: rgba(255, 255, 255, 0.52);
+  opacity: 1;
 }
 
 @media (max-width: 768px) {
@@ -1204,14 +1207,14 @@
 ═══════════════════════════════════════════════ */
 
 .info-band {
-  background: var(--color-mist);
+  background: var(--color-teak);
   padding: 1.25rem 2rem;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
   gap: 0 0;
-  border-bottom: 1px solid rgba(111, 146, 127, 0.14);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 .info-band-item {
@@ -1220,7 +1223,7 @@
   font-weight: 400;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--color-eucalyptus);
+  color: rgba(255, 255, 255, 0.78);
   padding: 0.2rem 1.5rem;
 }
 
@@ -1228,7 +1231,7 @@
   display: inline-block;
   width: 1px;
   height: 10px;
-  background: rgba(201, 168, 76, 0.35);
+  background: rgba(255, 255, 255, 0.24);
   flex-shrink: 0;
 }
 
@@ -1402,7 +1405,7 @@
 
 .review-secondary-item:hover {
   transform: translateY(-7px);
-  box-shadow: 0 30px 50px -28px rgba(13, 8, 6, 0.4);
+  box-shadow: 0 30px 50px -28px rgba(13, 8, 6, 0.52);
 }
 
 .review-secondary-item:hover::before { width: 100%; }
