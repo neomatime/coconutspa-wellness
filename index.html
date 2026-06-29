@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>document.documentElement.classList.add('has-js');</script>
   <title>Coconut Wellness Spa — Midrand</title>
   <meta name="description" content="Coconut Spa & Wellness in Midrand, Gauteng. Massage, skin therapy, body treatments, couples packages, birthday packages, pool and sauna. Book online via Fresha." />
   <meta property="og:title" content="Coconut Wellness Spa — Midrand" />
@@ -15,8 +16,18 @@
   <link rel="stylesheet" href="css/tokens.css" />
   <link rel="stylesheet" href="css/base.css" />
   <link rel="stylesheet" href="css/main.css" />
+  <link rel="preload" as="image" href="assets/images/hero-scroll/ezgif-frame-001.jpg" />
 </head>
 <body>
+
+  <!-- PRELOADER -->
+  <div class="site-loader" id="site-loader" role="status" aria-live="polite" aria-label="Loading">
+    <div class="site-loader-inner">
+      <span class="site-loader-name">COCONUT</span>
+      <span class="site-loader-script">Wellness Spa</span>
+      <div class="site-loader-track"><span class="site-loader-fill" id="loader-fill"></span></div>
+    </div>
+  </div>
 
   <!-- NAV -->
   <header class="site-nav" id="site-nav">
@@ -51,25 +62,26 @@
 
   <main>
 
-    <!-- HERO -->
-    <section class="hero" id="home">
-      <img
-        src="assets/images/hero.jpg"
-        alt="Coconut Spa & Wellness — a tranquil spa interior"
-        class="hero-bg"
-        loading="eager"
-        fetchpriority="high"
-      />
-      <div class="hero-overlay"></div>
-      <div class="hero-content">
-        <span class="section-script">Welcome to</span>
-        <h1 class="hero-heading">Coconut<br>Wellness Spa</h1>
-        <span class="hero-gold-line" aria-hidden="true"></span>
-        <p class="hero-tagline">Where your body feels as fresh and smooth as a coconut</p>
-        <div class="hero-btns">
-          <a href="https://www.fresha.com/a/coconut-spa-wellness-midrand-102-allen-road-umi0yjoe"
-             class="btn-primary" target="_blank" rel="noopener">Book an Appointment</a>
-          <a href="#services" class="btn-ghost">Explore Services</a>
+    <!-- HERO — cinematic scroll-scrub -->
+    <section class="hero" id="home" data-hero-static-src="assets/images/hero.jpg">
+      <div class="hero-sticky">
+        <canvas class="hero-canvas" aria-hidden="true"></canvas>
+        <div class="hero-grain" aria-hidden="true"></div>
+        <div class="hero-overlay" aria-hidden="true"></div>
+        <div class="hero-content">
+          <span class="section-script">Welcome to</span>
+          <h1 class="hero-heading">Coconut<br>Wellness Spa</h1>
+          <span class="hero-gold-line" aria-hidden="true"></span>
+          <p class="hero-tagline">Where your body feels as fresh and smooth as a coconut</p>
+          <div class="hero-btns">
+            <a href="https://www.fresha.com/a/coconut-spa-wellness-midrand-102-allen-road-umi0yjoe"
+               class="btn-primary" target="_blank" rel="noopener">Book an Appointment</a>
+            <a href="#services" class="btn-ghost">Explore Services</a>
+          </div>
+        </div>
+        <div class="hero-scroll-cue" aria-hidden="true">
+          <span class="hero-scroll-cue-text">Scroll</span>
+          <span class="hero-scroll-cue-line"></span>
         </div>
       </div>
     </section>
@@ -280,7 +292,7 @@
             <span class="review-stars" aria-label="5 stars">★★★★★</span>
             <span class="review-author">Verified Fresha Guest</span>
           </div>
-          <div class="review-divider" aria-hidden="true"></div>
+          <div class="review-divider divider-line" aria-hidden="true"></div>
           <div class="review-secondary reveal reveal-delay">
             <div class="review-secondary-item">
               <p class="review-secondary-text">"The Swedish massage was heavenly. Zandile is so skilled — I booked again before I even left."</p>
@@ -341,7 +353,7 @@
         <span class="footer-logo-name">COCONUT</span>
         <span class="footer-logo-script">Wellness Spa</span>
       </a>
-      <div class="footer-divider" aria-hidden="true"></div>
+      <div class="footer-divider divider-line" aria-hidden="true"></div>
       <nav class="footer-nav" aria-label="Footer navigation">
         <a href="#services">Services</a>
         <a href="#about">About</a>
@@ -365,6 +377,10 @@
     </div>
   </footer>
 
-  <script src="js/main.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+  <script src="js/hero-scroll.js" defer></script>
+  <script src="js/reveal.js" defer></script>
+  <script src="js/main.js" defer></script>
 </body>
 </html>

@@ -145,38 +145,65 @@
   position: relative;
   height: 100vh;
   min-height: 620px;
+  background: var(--color-ink);
+}
+
+.hero-sticky {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  min-height: 620px;
+  overflow: hidden;
   display: flex;
   align-items: flex-end;
-  overflow: hidden;
+  background: var(--color-ink);
 }
 
-.hero-bg {
+.hero-canvas {
   position: absolute;
   inset: 0;
+  z-index: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  object-position: center;
+  display: block;
+  transform-origin: center center;
+  will-change: transform;
+  background: var(--color-ink);
 }
 
+/* base legibility gradient + vignette — always present */
+.hero-grain {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    linear-gradient(to top,
+      rgba(13, 8, 6, 0.88) 0%,
+      rgba(13, 8, 6, 0.38) 45%,
+      rgba(13, 8, 6, 0.06) 100%),
+    radial-gradient(130% 90% at 50% 28%, transparent 52%, rgba(13, 8, 6, 0.40) 100%);
+}
+
+/* outro darkener — animated 0 → 1 at the end of the scrub */
 .hero-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    to top,
-    rgba(13, 8, 6, 0.90) 0%,
-    rgba(13, 8, 6, 0.55) 45%,
-    rgba(13, 8, 6, 0.15) 100%
-  );
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0;
+  background: var(--color-ink);
+  will-change: opacity;
 }
 
 .hero-content {
   position: relative;
-  z-index: 1;
+  z-index: 3;
   width: 100%;
   max-width: var(--max-width);
   margin: 0 auto;
   padding: 0 2rem 5.5rem;
+  will-change: transform, opacity;
 }
 
 .hero-content .section-script {
@@ -226,10 +253,69 @@
   flex-wrap: wrap;
 }
 
+/* scroll cue */
+.hero-scroll-cue {
+  position: absolute;
+  left: 50%;
+  bottom: 2rem;
+  transform: translateX(-50%);
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.7rem;
+  pointer-events: none;
+}
+
+.hero-scroll-cue-text {
+  font-family: var(--font-primary);
+  font-size: 9px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.hero-scroll-cue-line {
+  position: relative;
+  width: 1px;
+  height: 46px;
+  background: rgba(255, 255, 255, 0.2);
+  overflow: hidden;
+}
+
+.hero-scroll-cue-line::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: 0;
+  width: 100%;
+  height: 50%;
+  background: linear-gradient(to bottom, transparent, var(--color-gold));
+  animation: scrollCue 2.1s cubic-bezier(0.76, 0, 0.24, 1) infinite;
+}
+
+@keyframes scrollCue {
+  0%   { transform: translateY(0); }
+  100% { transform: translateY(300%); }
+}
+
+/* static fallback (mobile / reduced motion): gentle Ken Burns */
+@media (prefers-reduced-motion: no-preference) {
+  .hero--static .hero-canvas {
+    animation: heroKenBurns 18s ease-in-out infinite alternate;
+  }
+}
+
+@keyframes heroKenBurns {
+  from { transform: scale(1); }
+  to   { transform: scale(1.08); }
+}
+
 @media (max-width: 768px) {
-  .hero { min-height: 90vh; }
+  .hero, .hero-sticky { min-height: 90vh; }
   .hero-content { padding: 0 1.25rem 3.5rem; }
-  .hero-heading { font-size: clamp(2.75rem, 13vw, 4.5rem); }
+  .hero-heading { font-size: clamp(3.5rem, 14vw, 5.5rem); line-height: 0.92; }
+  .hero-scroll-cue { display: none; }
 }
 
 /* ═══════════════════════════════════════════════
@@ -237,23 +323,30 @@
 ═══════════════════════════════════════════════ */
 
 @media (prefers-reduced-motion: no-preference) {
+  /* hidden initial state — GSAP (inline) or the .visible fallback reveals it */
   .reveal {
     opacity: 0;
-    transform: translateY(24px);
-    transition: opacity 0.75s ease, transform 0.75s ease;
+    transform: translateY(28px);
   }
 
+  /* IntersectionObserver fallback only — GSAP drives via inline styles */
   .reveal.visible {
     opacity: 1;
     transform: translateY(0);
+    transition: opacity 0.8s ease, transform 0.8s ease;
   }
 
-  .reveal-delay {
-    transition-delay: 0.18s;
-  }
+  .reveal-delay.visible { transition-delay: 0.12s; }
+  .reveal-delay-2.visible { transition-delay: 0.24s; }
 
-  .reveal-delay-2 {
-    transition-delay: 0.36s;
+  /* animated dividers */
+  .divider-line {
+    transform: scaleX(0);
+    transform-origin: center;
+  }
+  .divider-line.drawn {
+    transform: scaleX(1);
+    transition: transform 1s ease;
   }
 }
 
@@ -896,4 +989,263 @@
 
 @media (max-width: 768px) {
   .hero-heading { font-size: clamp(3.5rem, 14vw, 5.5rem); line-height: 0.92; }
+}
+
+/* ═══════════════════════════════════════════════
+   PRELOADER
+═══════════════════════════════════════════════ */
+
+.site-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-ink);
+  transition: opacity 0.8s ease, visibility 0.8s ease;
+}
+
+.site-loader.is-hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.site-loader-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.site-loader-name {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.5rem;
+  letter-spacing: 0.42em;
+  text-indent: 0.42em;
+  color: #fff;
+  line-height: 1;
+}
+
+.site-loader-script {
+  font-family: var(--font-script);
+  font-size: 1.5rem;
+  color: var(--color-gold);
+  margin-top: 0.25rem;
+  line-height: 1;
+}
+
+.site-loader-track {
+  width: 150px;
+  height: 1px;
+  margin-top: 2rem;
+  background: rgba(255, 255, 255, 0.16);
+  overflow: hidden;
+}
+
+.site-loader-fill {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: var(--color-gold);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s ease;
+}
+
+/* ═══════════════════════════════════════════════
+   SERVICE ROWS — mouse-follow glow + gold trace
+═══════════════════════════════════════════════ */
+
+.service-item {
+  position: relative;
+  isolation: isolate;
+}
+
+.service-item::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  opacity: 0;
+  pointer-events: none;
+  background: radial-gradient(240px circle at var(--mx, 50%) var(--my, 50%),
+              rgba(201, 168, 76, 0.16), transparent 65%);
+  transition: opacity 0.4s ease;
+}
+
+.service-item:hover::before { opacity: 1; }
+
+.service-item::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 2px;
+  height: 100%;
+  background: var(--color-gold);
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.service-item:hover::after { transform: scaleY(1); }
+
+.service-item .service-num,
+.service-item .service-name {
+  transition: color 0.3s ease, transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.service-item:hover .service-num { color: #fff; }
+.service-item:hover .service-name { color: var(--color-gold); }
+
+/* ═══════════════════════════════════════════════
+   GALLERY — tilt depth + gradient reveal
+═══════════════════════════════════════════════ */
+
+.gallery-item {
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+              box-shadow 0.5s ease;
+}
+
+.gallery-item::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(to top, rgba(13, 8, 6, 0.5), transparent 55%);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.gallery-item:hover {
+  z-index: 2;
+  box-shadow: 0 34px 70px -24px rgba(13, 8, 6, 0.5);
+}
+
+.gallery-item:hover::after { opacity: 1; }
+
+/* ═══════════════════════════════════════════════
+   REVIEW CARDS — elevation + gold top bar
+═══════════════════════════════════════════════ */
+
+.review-secondary-item {
+  position: relative;
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+              box-shadow 0.45s ease;
+}
+
+.review-secondary-item::before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: 0;
+  height: 2px;
+  width: 0;
+  background: var(--color-gold);
+  transition: width 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.review-secondary-item:hover {
+  transform: translateY(-7px);
+  box-shadow: 0 30px 50px -28px rgba(13, 8, 6, 0.4);
+}
+
+.review-secondary-item:hover::before { width: 100%; }
+
+/* ═══════════════════════════════════════════════
+   BUTTONS — smooth magnetic return + shine sweep
+═══════════════════════════════════════════════ */
+
+.btn-primary {
+  position: relative;
+  overflow: hidden;
+  transition: opacity 0.2s ease,
+              transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+              box-shadow 0.4s ease;
+  will-change: transform;
+}
+
+.btn-primary::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -120%;
+  width: 70%;
+  height: 100%;
+  background: linear-gradient(100deg, transparent,
+              rgba(255, 255, 255, 0.45), transparent);
+  transform: skewX(-18deg);
+  transition: left 0.6s ease;
+  pointer-events: none;
+}
+
+.btn-primary:hover {
+  box-shadow: 0 18px 40px -16px rgba(201, 168, 76, 0.6);
+}
+
+.btn-primary:hover::after { left: 130%; }
+
+/* ═══════════════════════════════════════════════
+   SOFT BACKGROUND MOTION — drifting gold blooms
+═══════════════════════════════════════════════ */
+
+.about, .reviews {
+  position: relative;
+  overflow: hidden;
+}
+
+.about-inner, .reviews-inner {
+  position: relative;
+  z-index: 1;
+}
+
+.about::before, .reviews::before {
+  content: '';
+  position: absolute;
+  width: 540px;
+  height: 540px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(201, 168, 76, 0.12), transparent 68%);
+  filter: blur(46px);
+  z-index: 0;
+  pointer-events: none;
+}
+
+.about::before { top: -160px; right: -120px; }
+.reviews::before { bottom: -180px; left: -140px; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .about::before { animation: bloomDrift 16s ease-in-out infinite alternate; }
+  .reviews::before { animation: bloomDrift 20s ease-in-out infinite alternate-reverse; }
+}
+
+@keyframes bloomDrift {
+  from { transform: translate(0, 0) scale(1); }
+  to   { transform: translate(-50px, 40px) scale(1.15); }
+}
+
+/* ═══════════════════════════════════════════════
+   PAGE LOAD — settle the first view in
+═══════════════════════════════════════════════ */
+
+@media (prefers-reduced-motion: no-preference) {
+  /* gated on .has-js so the headline is never hidden without JS to reveal it */
+  .has-js .hero-content > * {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  .has-js body.is-loaded .hero-content > * {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.9s ease, transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .has-js body.is-loaded .hero-content > *:nth-child(1) { transition-delay: 0.15s; }
+  .has-js body.is-loaded .hero-content > *:nth-child(2) { transition-delay: 0.28s; }
+  .has-js body.is-loaded .hero-content > *:nth-child(3) { transition-delay: 0.40s; }
+  .has-js body.is-loaded .hero-content > *:nth-child(4) { transition-delay: 0.50s; }
+  .has-js body.is-loaded .hero-content > *:nth-child(5) { transition-delay: 0.60s; }
 }
