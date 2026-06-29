@@ -129,14 +129,23 @@
     // switch the hero into its tall sticky layout, then recompute positions
     hero.classList.add('hero--scroll');
 
-    var SCRUB_END = 0.9; // every frame is shown by 90% of the track…
+    var nav = document.querySelector('.site-nav');
+    var navOffset = nav ? nav.getBoundingClientRect().height : 0;
+    var getScrubDistance = function () {
+      return Math.max(
+        window.innerHeight,
+        hero.offsetHeight - window.innerHeight * 2 + navOffset
+      );
+    };
+
+    var SCRUB_END = 0.94; // leave a short final-frame handoff before content rises
 
     var tl = gsap.timeline({
       defaults: { ease: 'none' },
       scrollTrigger: {
         trigger: hero,
-        start: 'top top',
-        end: 'bottom bottom',
+        start: function () { return 'top top+=' + navOffset; },
+        end: function () { return '+=' + getScrubDistance(); },
         scrub: 0.6,
         invalidateOnRefresh: true
       }
@@ -160,6 +169,7 @@
     window.addEventListener('resize', function () {
       sizeCanvas();
       render();
+      navOffset = nav ? nav.getBoundingClientRect().height : 0;
       ScrollTrigger.refresh();
     });
 

@@ -147,12 +147,12 @@
   background: var(--color-ink);
 }
 
-/* desktop scroll-scrub: tall scroll track; the stage sticks inside it
-   via native position:sticky so the rest of the page never overlaps */
+/* desktop scroll-scrub: tall scroll track; the stage sticks inside it.
+   The negative margin lets the next content rise over the held final frame. */
 .hero--scroll {
-  height: 300vh;
+  height: 400vh;
+  margin-bottom: -100vh;
 }
-
 .hero-sticky {
   position: relative;
   width: 100%;
