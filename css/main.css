@@ -143,81 +143,74 @@
    HERO
 ═══════════════════════════════════════════════ */
 
+/* Fixed cinematic video hero. The hero is pinned to the viewport while a
+   transparent spacer provides scroll room for the scroll-driven zoom; the
+   page content then rides above (z-index) and slides over the held video. */
 .hero {
-  position: relative;
-  height: 100vh;
-  background: var(--color-ink);
-}
-
-/* desktop scroll-scrub: tall scroll track; the stage sticks inside it.
-   The negative margin lets the next content rise over the held final frame. */
-.hero--scroll {
-  height: 400vh;
-  margin-bottom: -100vh;
-}
-.hero-sticky {
-  position: relative;
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100vh;
-  min-height: 600px;
+  z-index: 0;
   overflow: hidden;
   display: flex;
   align-items: flex-end;
   background: var(--color-ink);
 }
 
-.hero--scroll .hero-sticky {
-  position: sticky;
-  top: 0;
-  min-height: 0;
-  height: 100vh;
-}
-
-.hero-canvas {
+.hero-video {
   position: absolute;
   inset: 0;
-  z-index: 0;
   width: 100%;
   height: 100%;
-  display: block;
+  object-fit: cover;
+  object-position: center;
+  transform: scale(1) translateZ(0);
   transform-origin: center center;
   will-change: transform;
   background: var(--color-ink);
 }
 
-/* base legibility gradient + vignette — always present */
-.hero-grain {
+/* legibility gradient + vignette over the video */
+.hero-overlay {
   position: absolute;
   inset: 0;
   z-index: 1;
   pointer-events: none;
   background:
     linear-gradient(to top,
-      rgba(13, 8, 6, 0.88) 0%,
-      rgba(13, 8, 6, 0.38) 45%,
-      rgba(13, 8, 6, 0.06) 100%),
-    radial-gradient(130% 90% at 50% 28%, transparent 52%, rgba(13, 8, 6, 0.40) 100%);
+      rgba(13, 8, 6, 0.84) 0%,
+      rgba(13, 8, 6, 0.34) 48%,
+      rgba(13, 8, 6, 0.10) 100%),
+    radial-gradient(130% 90% at 50% 30%, transparent 54%, rgba(13, 8, 6, 0.34) 100%);
 }
 
-/* outro darkener — animated 0 → 1 at the end of the scrub */
-.hero-overlay {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  pointer-events: none;
-  opacity: 0;
-  background: var(--color-ink);
-  will-change: opacity;
+/* scroll room for the pinned zoom + cover; transparent so the fixed hero
+   shows through it before the page content rises over the video */
+.hero-spacer {
+  height: 200vh;
+}
+
+/* everything after the hero rides above it and slides over the video */
+main,
+.footer {
+  position: relative;
+  z-index: 1;
+}
+
+main {
+  background: var(--color-white);
 }
 
 .hero-content {
   position: relative;
-  z-index: 3;
+  z-index: 2;
   width: 100%;
   max-width: var(--max-width);
   margin: 0 auto;
   padding: 0 2rem 5.5rem;
-  will-change: transform, opacity;
+  will-change: opacity;
 }
 
 .hero-content .section-script {
@@ -313,20 +306,7 @@
   100% { transform: translateY(300%); }
 }
 
-/* static fallback (mobile / reduced motion): gentle Ken Burns */
-@media (prefers-reduced-motion: no-preference) {
-  .hero--static .hero-canvas {
-    animation: heroKenBurns 18s ease-in-out infinite alternate;
-  }
-}
-
-@keyframes heroKenBurns {
-  from { transform: scale(1); }
-  to   { transform: scale(1.08); }
-}
-
 @media (max-width: 768px) {
-  .hero, .hero-sticky { min-height: 90vh; }
   .hero-content { padding: 0 1.25rem 3.5rem; }
   .hero-heading { font-size: clamp(3.5rem, 14vw, 5.5rem); line-height: 0.92; }
   .hero-scroll-cue { display: none; }
