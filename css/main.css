@@ -638,13 +638,30 @@
 ═══════════════════════════════════════════════ */
 
 .team {
+  position: relative;
   padding: 8rem 2rem 7rem;
+  overflow: hidden;
   background:
     linear-gradient(180deg, #fff 0%, var(--color-stone) 100%);
   border-bottom: 1px solid rgba(201, 168, 76, 0.18);
 }
 
+.team::before {
+  content: '';
+  position: absolute;
+  top: -220px;
+  right: -170px;
+  width: 520px;
+  height: 520px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(201, 168, 76, 0.11), transparent 68%);
+  filter: blur(42px);
+  pointer-events: none;
+}
+
 .team-inner {
+  position: relative;
+  z-index: 1;
   max-width: var(--max-width);
   margin: 0 auto;
 }
@@ -682,15 +699,24 @@
 .team-member {
   position: relative;
   min-width: 0;
-  padding: 1.35rem 1rem 1.5rem;
+  padding: 1.45rem 1rem 1.6rem;
   text-align: center;
-  background: rgba(255, 255, 255, 0.72);
-  border: 1px solid rgba(201, 168, 76, 0.18);
+  background: rgba(255, 255, 255, 0.78);
+  border: 1px solid rgba(201, 168, 76, 0.22);
   border-radius: 6px;
   box-shadow: 0 22px 55px -42px rgba(13, 8, 6, 0.45);
   transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
               border-color 0.35s ease,
               box-shadow 0.35s ease;
+}
+
+.team-member::before {
+  content: '';
+  display: block;
+  width: 34px;
+  height: 1px;
+  margin: 0 auto 1.2rem;
+  background: rgba(201, 168, 76, 0.45);
 }
 
 .team-member:hover {
@@ -700,25 +726,37 @@
 }
 
 .team-avatar {
+  position: relative;
+  display: grid;
+  place-items: center;
   width: min(10vw, 132px);
   min-width: 104px;
   height: min(10vw, 132px);
   min-height: 104px;
   margin: 0 auto;
   border-radius: 50%;
-  object-fit: cover;
-  background: #f0eefc;
-  border: 1px solid rgba(201, 168, 76, 0.24);
+  background:
+    radial-gradient(circle at 35% 28%, rgba(255, 255, 255, 0.92), rgba(248, 245, 240, 0.82) 42%, rgba(240, 235, 227, 0.95) 100%);
+  border: 1px solid rgba(201, 168, 76, 0.36);
+  box-shadow:
+    inset 0 0 0 9px rgba(255, 255, 255, 0.62),
+    0 18px 38px -30px rgba(13, 8, 6, 0.55);
 }
 
 .team-avatar--initial {
-  display: grid;
-  place-items: center;
-  font-family: var(--font-primary);
-  font-size: clamp(2.6rem, 4vw, 3.75rem);
-  font-weight: 700;
-  color: #6b55f4;
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 4.6vw, 4.2rem);
+  font-weight: 300;
+  color: var(--color-espresso);
   line-height: 1;
+}
+
+.team-avatar--initial::after {
+  content: '';
+  position: absolute;
+  inset: 13px;
+  border: 1px solid rgba(201, 168, 76, 0.26);
+  border-radius: 50%;
 }
 
 .team-rating {
@@ -729,7 +767,7 @@
   margin-top: -1.05rem;
   padding: 0.35rem 0.7rem 0.3rem;
   background: #fff;
-  border: 1px solid rgba(107, 85, 244, 0.18);
+  border: 1px solid rgba(201, 168, 76, 0.28);
   border-radius: 999px;
   box-shadow: 0 10px 26px -18px rgba(13, 8, 6, 0.55);
   font-family: var(--font-primary);
@@ -739,7 +777,7 @@
 }
 
 .team-rating span {
-  color: #ffb703;
+  color: var(--color-gold);
   font-size: 0.95rem;
   line-height: 1;
 }
@@ -780,6 +818,7 @@
   .team-intro { max-width: 100%; font-size: 0.9rem; }
   .team-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.85rem; }
   .team-member { padding: 1rem 0.75rem 1.15rem; }
+  .team-member::before { margin-bottom: 1rem; }
   .team-avatar { width: 106px; height: 106px; min-width: 0; min-height: 0; }
   .team-rating { min-height: 30px; font-size: 0.78rem; }
 }
@@ -787,8 +826,7 @@
 @media (max-width: 420px) {
   .team-grid { grid-template-columns: 1fr; }
   .team-avatar { width: 118px; height: 118px; }
-}
-/* ═══════════════════════════════════════════════
+}/* ═══════════════════════════════════════════════
    GALLERY
 ═══════════════════════════════════════════════ */
 
