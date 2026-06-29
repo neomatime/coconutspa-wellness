@@ -89,17 +89,39 @@ window.addEventListener('load', function () {
     });
   });
 
-  /* ---------- magnetic primary buttons ---------- */
-  var PULL = 0.28;
+  /* ---------- magnetic primary buttons ----------
+     Measure the resting rect ONCE on enter (no transform applied yet) and
+     pull from that fixed centre. Measuring during pointermove would read
+     the already-translated position and feed back into itself — that was
+     the jitter/run-away bug. Travel is rAF-throttled and clamped. */
+  var PULL = 0.34;
+  var MAX = 16; // px — button never drifts further than this from rest
   document.querySelectorAll('.btn-primary').forEach(function (btn) {
-    btn.addEventListener('pointermove', function (e) {
-      var r = btn.getBoundingClientRect();
-      var mx = e.clientX - r.left - r.width / 2;
-      var my = e.clientY - r.top - r.height / 2;
-      btn.style.transform = 'translate(' + (mx * PULL) + 'px,' + (my * PULL) + 'px)';
+    var base = null;
+    var raf = null;
+
+    btn.addEventListener('pointerenter', function () {
+      base = btn.getBoundingClientRect();
     });
+
+    btn.addEventListener('pointermove', function (e) {
+      if (!base) base = btn.getBoundingClientRect();
+      if (raf) return;
+      var cx = e.clientX, cy = e.clientY;
+      raf = requestAnimationFrame(function () {
+        raf = null;
+        var dx = (cx - (base.left + base.width / 2)) * PULL;
+        var dy = (cy - (base.top + base.height / 2)) * PULL;
+        dx = Math.max(-MAX, Math.min(MAX, dx));
+        dy = Math.max(-MAX, Math.min(MAX, dy));
+        btn.style.transform = 'translate(' + dx + 'px,' + dy + 'px)';
+      });
+    });
+
     btn.addEventListener('pointerleave', function () {
+      if (raf) { cancelAnimationFrame(raf); raf = null; }
       btn.style.transform = '';
+      base = null;
     });
   });
 })();
