@@ -24,6 +24,7 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 72px;
 }
 
 body {
@@ -98,4 +99,9 @@ a {
 .btn-ghost:hover {
   border-color: #ffffff;
   background-color: rgba(255, 255, 255, 0.07);
+}
+
+
+@media (max-width: 768px) {
+  html { scroll-padding-top: 60px; }
 }
