@@ -116,45 +116,51 @@
     window.addEventListener('resize', function () { sizeCanvas(); render(); });
   }
 
-  /* ---------- scroll-scrub (desktop) ---------- */
+  /* ---------- scroll-scrub (desktop) ----------
+     The hero becomes a tall (300vh) scroll track; the stage stays put
+     via CSS position:sticky. We scrub all frames across the stuck range,
+     so the user scrolls the whole video to its last frame BEFORE the
+     page continues. No GSAP pinning — nothing to overlap the sections. */
   function initScrollScrub() {
     var gsap = window.gsap;
     var ScrollTrigger = window.ScrollTrigger;
     gsap.registerPlugin(ScrollTrigger);
 
-    var SCRUB_DUR = 8;   // share of timeline spent scrubbing frames
-    var OUTRO_DUR = 2.4; // share spent on the zoom/darken handoff
+    // switch the hero into its tall sticky layout, then recompute positions
+    hero.classList.add('hero--scroll');
+
+    var SCRUB_END = 0.9; // every frame is shown by 90% of the track…
 
     var tl = gsap.timeline({
       defaults: { ease: 'none' },
       scrollTrigger: {
         trigger: hero,
         start: 'top top',
-        end: '+=2600',
-        pin: '.hero-sticky',
-        pinSpacing: true,
-        scrub: 1,
-        anticipatePin: 1,
+        end: 'bottom bottom',
+        scrub: 0.6,
         invalidateOnRefresh: true
       }
     });
 
-    // Phase 1 — scrub through the frames
+    // Phase 1 — scrub through every frame to the very last one
     tl.to(proxy, {
       frame: FRAME_COUNT - 1,
-      duration: SCRUB_DUR,
+      duration: SCRUB_END,
       onUpdate: render
     }, 0);
 
-    // Phase 2 — cinematic handoff: push in, darken, lift content away
-    tl.to(canvas, { scale: 1.16, ease: 'power1.in', duration: OUTRO_DUR }, SCRUB_DUR);
-    tl.to('.hero-overlay', { opacity: 1, ease: 'power1.in', duration: OUTRO_DUR }, SCRUB_DUR);
-    tl.to('.hero-content', { y: -70, opacity: 0, ease: 'power1.in', duration: OUTRO_DUR * 0.9 }, SCRUB_DUR);
-    tl.to('.hero-scroll-cue', { opacity: 0, duration: 1 }, 0);
+    // Phase 2 — brief settle on the final frame: a gentle push-in + fade
+    //           to dark as the hero hands off to the page below it
+    tl.to(canvas, { scale: 1.1, ease: 'power1.in', duration: 1 - SCRUB_END }, SCRUB_END);
+    tl.to('.hero-overlay', { opacity: 0.5, ease: 'power1.in', duration: 1 - SCRUB_END }, SCRUB_END);
+
+    // scroll cue disappears as soon as the journey starts
+    tl.to('.hero-scroll-cue', { autoAlpha: 0, duration: 0.05 }, 0.01);
 
     window.addEventListener('resize', function () {
       sizeCanvas();
       render();
+      ScrollTrigger.refresh();
     });
 
     ScrollTrigger.refresh();
