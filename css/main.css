@@ -2088,6 +2088,121 @@
   cursor: default;
 }
 
+/* display:flex on .booking-actions would otherwise defeat [hidden] */
+.booking-actions[hidden] {
+  display: none;
+}
+
+/* summary total + honest deposit note */
+.booking-summary-total {
+  margin-top: 0.15rem;
+  padding-top: 0.9rem;
+  border-top: 1px solid rgba(44, 26, 14, 0.16);
+  border-bottom: 0;
+}
+
+.booking-summary-total span:first-child {
+  align-self: center;
+}
+
+.booking-summary-total strong {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 1.55rem;
+  line-height: 1;
+  color: var(--color-espresso);
+}
+
+.booking-summary-note {
+  margin: 0.95rem 0 0;
+  font-size: 0.78rem;
+  line-height: 1.6;
+  color: rgba(122, 92, 58, 0.92);
+}
+
+/* confirmation recap card */
+.booking-recap {
+  width: 100%;
+  max-width: 460px;
+  margin: 0.4rem auto 0.4rem;
+  display: grid;
+  gap: 0.65rem;
+  padding: 1.25rem 1.4rem;
+  border: 1px solid rgba(201, 168, 76, 0.32);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.7);
+  text-align: left;
+}
+
+.booking-recap-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 1.25rem;
+  align-items: baseline;
+}
+
+.booking-recap-row span {
+  flex-shrink: 0;
+  font-family: var(--font-primary);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-teak);
+}
+
+.booking-recap-row strong {
+  text-align: right;
+  color: var(--color-espresso);
+  font-size: 0.86rem;
+  line-height: 1.45;
+}
+
+.booking-recap-total {
+  margin-top: 0.3rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid rgba(44, 26, 14, 0.1);
+}
+
+.booking-recap-total strong {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 1.35rem;
+}
+
+/* confirmation actions */
+.booking-confirmation-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.9rem;
+  width: 100%;
+  margin-top: 0.4rem;
+}
+
+.booking-fresha-cta {
+  min-width: 250px;
+  text-align: center;
+}
+
+.booking-confirmation-secondary {
+  border: 0;
+  background: none;
+  color: var(--color-teak);
+  font-family: var(--font-primary);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  opacity: 0.72;
+  transition: opacity 0.2s ease;
+}
+
+.booking-confirmation-secondary:hover {
+  opacity: 1;
+}
+
 body.booking-open {
   overflow: hidden;
 }

@@ -153,11 +153,14 @@ window.addEventListener('load', function () {
   var summaryEl = modal.querySelector('[data-booking-summary]');
   var nextBtn = modal.querySelector('[data-booking-next]');
   var backBtn = modal.querySelector('[data-booking-back]');
+  var actionsBar = modal.querySelector('.booking-actions');
+  var recapEl = modal.querySelector('[data-booking-recap]');
   var progressItems = Array.prototype.slice.call(modal.querySelectorAll('.booking-progress li'));
   var progressFill = modal.querySelector('.booking-progress-line span');
   var lastFocused = null;
   var currentStep = 1;
   var deposit = 650;
+  var FRESHA_URL = 'https://www.fresha.com/a/coconut-spa-wellness-midrand-102-allen-road-umi0yjoe';
   var state = {
     team: null,
     services: [],
@@ -189,6 +192,15 @@ window.addEventListener('load', function () {
 
   function formatMoney(value) {
     return 'R' + value.toLocaleString('en-ZA');
+  }
+
+  function formatDate(iso) {
+    if (!iso) return '';
+    var parts = iso.split('-');
+    if (parts.length !== 3) return iso;
+    var d = new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]));
+    if (isNaN(d.getTime())) return iso;
+    return d.toLocaleDateString('en-ZA', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' });
   }
 
   function selectedServices() {
@@ -249,20 +261,26 @@ window.addEventListener('load', function () {
     var member = team.find(function (item) { return item.id === state.team; });
     var serviceList = selectedServices();
     var fullAmount = total();
-    var balance = Math.max(fullAmount - deposit, 0);
+    var depositDue = Math.min(deposit, fullAmount);
     summaryEl.innerHTML =
       '<div class="booking-summary-row"><span>Team Member</span><strong>' + (member ? member.name : 'Not selected') + '</strong></div>' +
-      '<div class="booking-summary-row"><span>Services</span><strong class="booking-summary-services">' + serviceList.map(function (service) { return '<span>' + service.name + ' - ' + formatMoney(service.price) + '</span>'; }).join('') + '</strong></div>' +
-      '<div class="booking-summary-row"><span>Date</span><strong>' + (state.date || 'Not selected') + '</strong></div>' +
+      '<div class="booking-summary-row"><span>Services</span><strong class="booking-summary-services">' + serviceList.map(function (service) { return '<span>' + service.name + ' &middot; ' + formatMoney(service.price) + '</span>'; }).join('') + '</strong></div>' +
+      '<div class="booking-summary-row"><span>Date</span><strong>' + (formatDate(state.date) || 'Not selected') + '</strong></div>' +
       '<div class="booking-summary-row"><span>Time</span><strong>' + (state.time || 'Not selected') + '</strong></div>' +
-      '<div class="booking-summary-row"><span>Full Amount</span><strong>' + formatMoney(fullAmount) + '</strong></div>' +
-      '<div class="booking-summary-row"><span>Required Deposit</span><strong>' + formatMoney(deposit) + '</strong></div>' +
-      '<div class="booking-summary-row"><span>Balance Due</span><strong>' + formatMoney(balance) + '</strong></div>';
-    if (fullAmount < deposit) {
-      setValidation('summary', 'The selected service total must be at least R650 to continue. Please add another treatment or choose a higher-value service.');
-    } else {
-      setValidation('summary', '');
-    }
+      '<div class="booking-summary-row booking-summary-total"><span>Estimated Total</span><strong>' + formatMoney(fullAmount) + '</strong></div>';
+    summaryEl.innerHTML += '<p class="booking-summary-note">A ' + formatMoney(depositDue) + ' deposit secures your booking — paid securely when you confirm on Fresha. The balance is settled at the spa.</p>';
+    setValidation('summary', '');
+  }
+
+  function renderRecap() {
+    if (!recapEl) return;
+    var member = team.find(function (item) { return item.id === state.team; });
+    var serviceList = selectedServices();
+    recapEl.innerHTML =
+      '<div class="booking-recap-row"><span>Therapist</span><strong>' + (member ? member.name : '—') + '</strong></div>' +
+      '<div class="booking-recap-row"><span>When</span><strong>' + (formatDate(state.date) || '—') + (state.time ? ' &middot; ' + state.time : '') + '</strong></div>' +
+      '<div class="booking-recap-row"><span>Treatments</span><strong>' + (serviceList.length ? serviceList.map(function (s) { return s.name; }).join(', ') : '—') + '</strong></div>' +
+      '<div class="booking-recap-row booking-recap-total"><span>Total</span><strong>' + formatMoney(total()) + '</strong></div>';
   }
 
   function updateProgress() {
@@ -281,7 +299,10 @@ window.addEventListener('load', function () {
     });
     backBtn.disabled = currentStep === 1;
     if (currentStep === 4) renderSummary();
-    nextBtn.textContent = currentStep === 4 ? 'Pay Deposit' : (currentStep === 5 ? 'Close' : 'Next');
+    if (currentStep === 5) renderRecap();
+    // the confirmation step carries its own actions (Fresha / close)
+    if (actionsBar) actionsBar.hidden = currentStep === 5;
+    nextBtn.textContent = currentStep === 4 ? 'Confirm Booking' : 'Next';
     updateProgress();
   }
 
@@ -299,16 +320,18 @@ window.addEventListener('load', function () {
       setValidation('datetime', 'Please select both a preferred date and an available time.');
       return false;
     }
-    if (currentStep === 4 && total() < deposit) {
-      setValidation('summary', 'The selected service total must be at least R650 to continue.');
-      return false;
-    }
     return true;
   }
 
   function openBooking(event) {
     if (event) event.preventDefault();
     lastFocused = document.activeElement;
+    // start every booking fresh so prior selections never linger
+    state = { team: null, services: [], date: '', time: '' };
+    if (dateInput) dateInput.value = '';
+    renderTeam();
+    renderServices();
+    renderTimes();
     modal.classList.add('is-open');
     modal.setAttribute('aria-hidden', 'false');
     document.body.classList.add('booking-open');
@@ -333,7 +356,24 @@ window.addEventListener('load', function () {
   });
 
   document.addEventListener('keydown', function (event) {
-    if (event.key === 'Escape' && modal.classList.contains('is-open')) closeBooking();
+    if (!modal.classList.contains('is-open')) return;
+    if (event.key === 'Escape') { closeBooking(); return; }
+    if (event.key !== 'Tab') return;
+    // focus trap — keep keyboard focus inside the dialog
+    var focusable = Array.prototype.filter.call(
+      modal.querySelectorAll('a[href], button:not([disabled]), input, select, textarea, [tabindex]:not([tabindex="-1"])'),
+      function (el) { return el.offsetParent !== null; }
+    );
+    if (!focusable.length) return;
+    var first = focusable[0];
+    var last = focusable[focusable.length - 1];
+    if (event.shiftKey && document.activeElement === first) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault();
+      first.focus();
+    }
   });
 
   teamWrap.addEventListener('click', function (event) {
@@ -373,17 +413,8 @@ window.addEventListener('load', function () {
   });
 
   nextBtn.addEventListener('click', function () {
-    if (currentStep === 5) {
-      closeBooking();
-      return;
-    }
     if (!validateStep()) return;
-    if (currentStep === 4) {
-      state.paid = true;
-      showStep(5);
-      return;
-    }
-    showStep(currentStep + 1);
+    showStep(Math.min(currentStep + 1, 5));
   });
 
   var today = new Date();
